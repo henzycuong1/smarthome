@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.5
 import "main.js" as Js
+
 Rectangle {
     id: formLogin
     width: 500
@@ -8,17 +9,17 @@ Rectangle {
     color: "#ffffff"
     radius: 10
     signal clicked
-    FontLoader{
+    FontLoader {
         id: robotoBold
         name: "roboto bold"
         source: "Font/Roboto-Bold.ttf"
     }
-    FontLoader{
+    FontLoader {
         id: robotoLight
         name: "roboto light"
         source: "Font/Roboto-Light.ttf"
     }
-    FontLoader{
+    FontLoader {
         id: robotoRegular
         name: "roboto regular"
         source: "Font/Roboto-Regular.ttf"
@@ -51,12 +52,12 @@ Rectangle {
         text: qsTr("")
         font.family: robotoLight.name
         placeholderText: "Email hoặc số điện thoại"
-        background: Rectangle{
+        background: Rectangle {
             border.color: "transparent"
         }
     }
 
-    TextField{
+    TextField {
         id: inputPassword
         x: 28
         y: 109
@@ -66,18 +67,18 @@ Rectangle {
         font.family: robotoLight.name
         placeholderText: "Password"
         echoMode: TextInput.Password
-        background: Rectangle{
+        background: Rectangle {
             border.color: "transparent"
         }
     }
 
-    Button{
+    Button {
         id: bFormLogin
         x: 28
         y: 209
         width: 444
         height: 40
-        background: Rectangle{
+        background: Rectangle {
             radius: 10
         }
         onClicked: {
@@ -86,7 +87,7 @@ Rectangle {
         }
     }
 
-    Rectangle{
+    Rectangle {
         x: 231
         y: 7
         radius: 10
@@ -94,7 +95,7 @@ Rectangle {
         height: 444
         color: "#2d897e"
         rotation: 90
-        gradient: Gradient{
+        gradient: Gradient {
             GradientStop {
                 position: 0
                 color: "#2d897e"
@@ -139,7 +140,7 @@ Rectangle {
         y: 159
         width: 42
         height: 37
-        Text{
+        Text {
             id: tGhiNhoDangNhap
             x: 45
             y: 9
@@ -152,7 +153,6 @@ Rectangle {
             y: 2
             anchors.fill: tGhiNhoDangNhap
         }
-
     }
     Connections {
         target: mGhiNhoDangNhap
@@ -170,3 +170,4 @@ Designer {
     D{i:10;anchors_height:433;anchors_width:440;anchors_x:0}D{i:13;anchors_height:433;anchors_width:440;anchors_x:0}
 }
 ##^##*/
+

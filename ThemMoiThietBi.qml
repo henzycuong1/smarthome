@@ -2,18 +2,19 @@ import QtQuick 2.0
 import QtQuick.Window 2.3
 import QtQuick.Controls 2.5
 import "main.js" as Js
+
 Rectangle {
     id: clickArea
     width: 100
     height: 100
-    signal clicked();
+    signal clicked
     color: "transparent"
     border.color: "black"
     border.width: 1
     property bool displayDeviceInput: false
     property string currentDeviceName: inputDeviceName.text
-    z:10
-    MouseArea{
+    z: 10
+    MouseArea {
         anchors.fill: parent
         onClicked: {
             parent.clicked()
@@ -25,7 +26,7 @@ Rectangle {
         color: "black"
         anchors.centerIn: parent
     }
-    Rectangle{
+    Rectangle {
         id: formInputDeviceName
         visible: displayDeviceInput
         width: 200
@@ -34,8 +35,12 @@ Rectangle {
         border.color: "black"
         border.width: 1
         radius: 10
-        anchors { left: parent.right; leftMargin: 10; verticalCenter: parent.verticalCenter}
-        TextField{
+        anchors {
+            left: parent.right
+            leftMargin: 10
+            verticalCenter: parent.verticalCenter
+        }
+        TextField {
             width: 115
             id: inputDeviceName
             text: ""
@@ -45,12 +50,12 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
             anchors.leftMargin: 5
-            background: Rectangle{
+            background: Rectangle {
                 border.color: "transparent"
                 color: "transparent"
             }
         }
-        Rectangle{
+        Rectangle {
             width: 50
             height: 40
             color: "black"
@@ -58,18 +63,17 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
             anchors.rightMargin: 5
-            Text{
+            Text {
                 color: "white"
                 text: "OK"
                 anchors.centerIn: parent
             }
-            MouseArea{
+            MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    displayDeviceInput = false;
-                    currentDeviceName = inputDeviceName.text;
                     Js.createDevice();
-                    Js.createDeviceList();
+                    currentDeviceName = inputDeviceName.text;
+                    Js.createDeviceList(row);
                 }
             }
         }

@@ -3,6 +3,7 @@
 
 #include <QQuickItem>
 #include <QQuickView>
+#include <QProcess>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -62,6 +63,10 @@ public slots:
         newFile.close();
         oldFile.remove();
         newFile.rename("../" + nameFile +"temp.tmp", "../" + nameFile +".tmp");
+    }
+    void restart(){
+        qApp->quit();
+        QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
     }
 };
 

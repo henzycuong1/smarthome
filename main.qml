@@ -5,6 +5,7 @@ import FileIO 1.0
 import QtQuick.Dialogs 1.2
 import "."
 import "main.js" as Js
+
 Window {
     id: root
     visible: true
@@ -15,49 +16,56 @@ Window {
     property bool toggleDisplay: false
     property bool hideDisplay: true
     property string fileURLMain
+    property bool admin
+    property bool maDisplayMenuControl: false
     Component.onCompleted: {
+
     }
-    FontLoader{
+    FontLoader {
         id: robotoBold
         name: "roboto bold"
         source: "Font/Roboto-Bold.ttf"
     }
-    FontLoader{
+    FontLoader {
         id: robotoLight
         name: "roboto light"
         source: "Font/Roboto-Light.ttf"
     }
-    FontLoader{
+    FontLoader {
         id: robotoRegular
         name: "roboto regular"
         source: "Font/Roboto-Regular.ttf"
     }
-    Background{
+    Background {
         id: maBackground
         anchors.fill: parent
     }
-    FileIO{
+    FileIO {
         id: file
     }
-    FormLogin{
+    FormLogin {
         id: maFormLogin
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 50
     }
-    Room{
+    Room {
         imageURL: fileURLMain
     }
-    ListView{
+    ListView {
         id: listPoint
     }
-    MenuAdminTTB{
+    MenuAdminTTB {
         id: maMenuAdminTTB
         visible: false
     }
-    MenuUsers{
+    MenuUsers {
         id: maMenuUsers
-        visible: toggleDisplay
+        visible: false
+        displayMenuControl: maDisplayMenuControl
     }
-
+    MessageBox {
+        id: messageBox
+        visible: false
+    }
 }

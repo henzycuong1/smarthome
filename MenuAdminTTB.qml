@@ -14,63 +14,67 @@ Item {
     property string currentRoom
     property bool pressed: false
     property bool dialogPressed: false
-    z:10
-    FontLoader{
+    z: 10
+    FontLoader {
         id: robotoBold
         name: "roboto bold"
         source: "Font/Roboto-Bold.ttf"
     }
-    FontLoader{
+    FontLoader {
         id: robotoLight
         name: "roboto light"
         source: "Font/Roboto-Light.ttf"
     }
-    FontLoader{
+    FontLoader {
         id: robotoRegular
         name: "roboto regular"
         source: "Font/Roboto-Regular.ttf"
     }
-    FileIO{
+    FileIO {
         id: file
     }
-    Rectangle{
+    Rectangle {
         id: menuAdminTTB
         height: 100
-        anchors{ top: parent.top; left: parent.left; right: parent.right }
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+        }
         color: "black"
         z: 10
-        Row{
-            id:row
+        Row {
+            id: row
             spacing: 10
             topPadding: 25
             bottomPadding: 25
             leftPadding: 10
-            Rectangle{
+            Rectangle {
                 id: rowChild
                 width: 115
                 height: 50
                 x: 50
                 radius: 10
-                Text{
+                Text {
                     id: tThemThietBi
                     text: "Thêm thiết bị"
                     font.family: robotoLight.name
                     font.pointSize: 12
                     anchors.centerIn: parent
                 }
-                MouseArea{
+                MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
                     onPressed: {
-                        Js.startDrag(mouse);
-                        containerMenu.pressed = true;
+                        Js.startDrag(mouse)
+                        containerMenu.pressed = true
                     }
                     onPositionChanged: {
-                        containerMenu.pressed ? Js.continueDrag(mouse) : "";
+                        containerMenu.pressed ? Js.continueDrag(mouse) : ""
                     }
                     onReleased: {
-                        Js.endDrag(currentRoom);
-                        containerMenu.pressed = false;
+                        Js.endDrag(currentRoom)
+                        containerMenu.pressed = false
                     }
                     onEntered: {
                         parent.color = "blue"
@@ -83,14 +87,11 @@ Item {
                 }
             }
 
-            Rectangle{
+            Rectangle {
                 width: 115
                 height: 50
-    //            anchors.right: parent.right
-    //            anchors.rightMargin: 50
-    //            anchors.verticalCenter: parent.verticalCenter
                 radius: 10
-                Text{
+                Text {
                     id: tXoaToanBoTTB
                     text: "Xóa toàn bộ"
                     font.family: robotoLight.name
@@ -101,8 +102,8 @@ Item {
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: {
-                        Js.clearAllItems(row,currentRoom + "Address");
-                        Js.clearAllItems(row,currentRoom + "DeviceName");
+                        Js.clearAllItems(row, currentRoom + "Address")
+                        Js.clearAllItems(row, currentRoom + "DeviceName")
                     }
                     onEntered: {
                         parent.color = "blue"
@@ -118,28 +119,33 @@ Item {
     }
     Rectangle {
         id: menuAdminTP
-        anchors { left: parent.left; top: parent.top; topMargin: parent.height/8.5; bottom: parent.bottom}
-        width: parent.width/10
+        anchors {
+            left: parent.left
+            top: parent.top
+            topMargin: parent.height / 8.5
+            bottom: parent.bottom
+        }
+        width: parent.width / 10
         color: "black"
         z: 10
-        Column{
+        Column {
             id: column
             spacing: 10
             topPadding: 20
             leftPadding: 10
             rightPadding: 10
-            Rectangle{
+            Rectangle {
                 width: 115
                 height: 50
                 radius: 10
-                Text{
+                Text {
                     id: tThemPhong
                     text: "Thêm Phòng"
                     font.family: robotoLight.name
                     font.pointSize: 12
                     anchors.centerIn: parent
                 }
-                MouseArea{
+                MouseArea {
                     hoverEnabled: true
                     anchors.fill: parent
                     onClicked: fileDialog.visible = true
@@ -152,22 +158,22 @@ Item {
                         tThemPhong.color = "black"
                     }
                 }
-                FileDialog{
+                FileDialog {
                     id: fileDialog
                     title: "Chọn phòng"
                     folder: shortcuts.home
                     onAccepted: {
-                        containerMenu.fileURL = fileUrl;
-                        Js.insertImage();
-                        Js.createRoomList(column,file.numberLine("temp"));
+                        containerMenu.fileURL = fileUrl
+                        Js.insertImage()
+                        Js.createRoomList(column, file.numberLine("temp"))
                     }
                 }
             }
-            Rectangle{
+            Rectangle {
                 width: 115
                 height: 50
                 radius: 10
-                Text{
+                Text {
                     id: tXoaToanBoTB
                     text: "Xóa toàn bộ"
                     font.family: robotoLight.name
@@ -178,7 +184,7 @@ Item {
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: {
-                        Js.clearAllItems(column,"temp");
+                        Js.clearAllItems(column, "temp")
                     }
                     onEntered: {
                         parent.color = "blue"
@@ -191,11 +197,11 @@ Item {
                 }
             }
             Component.onCompleted: {
-                Js.createRoomList(column,file.numberLine("temp"));
+                Js.createRoomList(column, file.numberLine("temp"))
             }
         }
     }
-    Rectangle{
+    Rectangle {
         id: formInputRoomName
         visible: displayFormInput
         width: 200
@@ -205,7 +211,7 @@ Item {
         border.width: 1
         radius: 10
         anchors.centerIn: containerMenu
-        TextField{
+        TextField {
             width: 115
             id: inputRoomName
             text: ""
@@ -215,12 +221,12 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
             anchors.leftMargin: 5
-            background: Rectangle{
+            background: Rectangle {
                 border.color: "transparent"
                 color: "transparent"
             }
         }
-        Rectangle{
+        Rectangle {
             width: 50
             height: 40
             color: "black"
@@ -228,22 +234,50 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
             anchors.rightMargin: 5
-            Text{
+            Text {
                 color: "white"
                 text: "OK"
                 anchors.centerIn: parent
             }
-            MouseArea{
+            MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    Js.createNewFile(inputRoomName.text);
-                    currentRoom = inputRoomName.text;
-                    Js.createRoomList(column,file.numberLine("temp"));
+                    Js.createNewFile(inputRoomName.text)
+                    currentRoom = inputRoomName.text
+                    Js.createRoomList(column, file.numberLine("temp"))
                 }
             }
         }
     }
+    Rectangle{
+        id: restart
+        width: 100
+        height: 50
+        color: "transparent"
+        border.color: "black"
+        border.width: 1
+        radius: 10
+        anchors {
+            bottom: parent.bottom
+            bottomMargin: 100
+            right: parent.right
+            rightMargin: 100
+        }
+
+        Text {
+            text: "Hoàn thành"
+            anchors.centerIn: parent
+        }
+        MouseArea{
+            anchors.fill: parent
+            onClicked:{
+               file.restart();
+            }
+        }
+    }
+
     Component.onCompleted: {
-//        Js.createComponentWhenStartup();
+
+        //        Js.createComponentWhenStartup();
     }
 }

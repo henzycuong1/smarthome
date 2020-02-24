@@ -19,7 +19,6 @@
         <file>Font/Roboto-ThinItalic.ttf</file>
         <file>main.js</file>
         <file>MenuAdminTTB.qml</file>
-        <file>MenuAdminTP.qml</file>
         <file>ItemComponents.qml</file>
         <file>ItemName.qml</file>
         <file>Room.qml</file>

@@ -2,12 +2,13 @@ import QtQuick 2.0
 import QtGraphicalEffects 1.0
 import "main.js" as Js
 import "."
+
 Rectangle {
     id: rectangle
     width: 800
     height: 480
     color: "#72c994"
-    z:-2
+    z: -2
     gradient: Gradient {
         GradientStop {
             position: 0
@@ -19,17 +20,17 @@ Rectangle {
             color: "#2d897e"
         }
     }
-    FontLoader{
+    FontLoader {
         id: robotoBold
         name: "roboto bold"
         source: "Font/Roboto-Bold.ttf"
     }
-    FontLoader{
+    FontLoader {
         id: robotoLight
         name: "roboto light"
         source: "Font/Roboto-Light.ttf"
     }
-    FontLoader{
+    FontLoader {
         id: robotoRegular
         name: "roboto regular"
         source: "Font/Roboto-Regular.ttf"
@@ -102,5 +103,3 @@ Rectangle {
         font.pixelSize: 20
     }
 }
-
-
