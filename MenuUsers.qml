@@ -7,8 +7,8 @@ import "main.js" as Js
 
 Item {
     id: menuUsers
-    height: Screen.height
-    width: Screen.width
+    height: parent.height
+    width: parent.width
     signal clicked
     property bool displayMenuChangeRoom: false
     property bool displayMenuControl
@@ -20,33 +20,39 @@ Item {
             right: parent.right
             bottom: parent.bottom
         }
-        height: parent.height / 4
+        height: 100
         z: 10
-        gradient: Gradient {
-            GradientStop {
-                position: 0.0
-                color: "#8dbffc"
-            }
-            GradientStop {
-                position: 1.0
-                color: "#5797df"
-            }
-        }
-        Button {
+        color: "#7accc8"
+        opacity: 0.7
+        radius: 10
+//        gradient: Gradient {
+//            GradientStop {
+//                position: 0.0
+//                color: "#8dbffc"
+//            }
+//            GradientStop {
+//                position: 1.0
+//                color: "#5797df"
+//            }
+//        }
+        Rectangle {
             id: closeMenuControl
             anchors {
                 top: parent.top
                 topMargin: 10
                 right: parent.right
-                rightMargin: 100
+                rightMargin: 10
             }
             width: 25
             height: 25
             z: 10
-            background: Rectangle {
-                radius: 100
-                color: "red"
-                opacity: 0.5
+            radius: 100
+            color: "transparent"
+            Image {
+                id: iconCloseControl
+                source: "icon/closebutton.png"
+                sourceSize.height: 25
+                sourceSize.width: 25
             }
             MouseArea {
                 id: mCloseMenuControl
@@ -54,8 +60,11 @@ Item {
                 onClicked: Js.pointClicked();
             }
         }
+        Row{
+            id: rowUser
+            spacing: 10
+        }
     }
-
     Rectangle {
         id: menuChangeRoomUsers
         visible: displayMenuChangeRoom
@@ -64,19 +73,22 @@ Item {
             top: parent.top
             bottom: parent.bottom
         }
-        width: parent.width / 10
+        width: 120
         z: 10
-        gradient: Gradient {
-            GradientStop {
-                position: 0.0
-                color: "#5797df"
-            }
-            GradientStop {
-                position: 1.0
-                color: "#8dbffc"
-            }
-        }
-        Button {
+        radius: 10
+//        gradient: Gradient {
+//            GradientStop {
+//                position: 0.0
+//                color: "#5797df"
+//            }
+//            GradientStop {
+//                position: 1.0
+//                color: "#8dbffc"
+//            }
+//        }
+        color: "#7accc8"
+        opacity: 0.7
+        Rectangle {
             id: closeMenuChangeRoom
             anchors {
                 top: parent.top
@@ -87,10 +99,13 @@ Item {
             width: 25
             height: 25
             z: 10
-            background: Rectangle {
-                radius: 100
-                color: "red"
-                opacity: 0.5
+            color: "transparent"
+            radius:100
+            Image {
+                id: iconCloseRoom
+                source: "icon/closebutton.png"
+                sourceSize.height: 25
+                sourceSize.width: 25
             }
             MouseArea {
                 id: mCloseMenuChangeRoom
@@ -100,6 +115,7 @@ Item {
                     for(let i = 0; i < columnUsers.children.length; i++){
                         columnUsers.children[i].destroy()
                     }
+                    bShowMenuChangeRoom.visible = true;
                 }
             }
         }
@@ -113,22 +129,22 @@ Item {
     }
     Rectangle{
         id: bShowMenuChangeRoom
-        width: 100
-        height: 30
-        anchors { top: parent.top; topMargin: 30; left: parent.left; leftMargin: 30 }
+        width: 50
+        height: 50
+        anchors { top: parent.top; topMargin: 10; left: parent.left; leftMargin: 10 }
         color: "transparent"
-        border.color: "black"
-        border.width: 1
-        Text{
-            anchors.centerIn: parent
-            text: "Chọn phòng"
-            color: "black"
+        Image {
+            id: iconChooseRoom
+            source: "icon/change.png"
+            sourceSize.width: 50
+            sourceSize.height: 50
         }
         MouseArea{
             anchors.fill: parent
             onClicked: {
                 displayMenuChangeRoom = true;
-                Js.createRoomList(columnUsers,file.numberLine("temp"));
+                bShowMenuChangeRoom.visible = false;
+                Js.createRoomListUser(columnUsers,file.numberLine("temp"), false);
             }
         }
     }

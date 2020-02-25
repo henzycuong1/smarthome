@@ -20,8 +20,17 @@
         <file>main.js</file>
         <file>MenuAdminTTB.qml</file>
         <file>ItemComponents.qml</file>
-        <file>ItemName.qml</file>
         <file>Room.qml</file>
         <file>MessageBox.qml</file>
+        <file>ItemUser.qml</file>
+        <file>icon/add.png</file>
+        <file>icon/addroom.png</file>
+        <file>icon/closebutton.png</file>
+        <file>icon/lightoff.png</file>
+        <file>icon/lighton.png</file>
+        <file>icon/trash.png</file>
+        <file>icon/change.png</file>
+        <file>icon/change2.png</file>
+        <file>icon/circle.png</file>
     </qresource>
 </RCC>

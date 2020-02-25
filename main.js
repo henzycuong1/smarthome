@@ -1,7 +1,7 @@
 var newThietBi
 var newComp
 var specialCharacters = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/
-console.log("Js đang chạy")
+console.log("Js's running")
 function checkLogin(id, password) {
     if (id === "a" && password === "a") {
         maFormLogin.visible = false
@@ -29,32 +29,54 @@ function checkLogin(id, password) {
 function pointClicked() {
     maDisplayMenuControl = !maDisplayMenuControl;
 }
-function createPoint(name) {
+function createPoint(name, admin) {
+    if (listPoint.children.length !== 0) {
+        for (let k = 1; k < listPoint.children.length; k++) {
+            listPoint.children[k].destroy()
+        }
+    }
     let newAddress = file.readFile(name + "Address").split(",")
     for (let i = 0; i < newAddress.length / 2 - 1; i++) {
         let j = i * 2
         let newComp = Qt.createComponent("ThemMoiThietBi.qml")
         let newObj = newComp.createObject(listPoint, {
                                               "x": Number(newAddress[j]),
-                                              "y": Number(newAddress[j + 1])
+                                              "y": Number(newAddress[j + 1]),
+                                              "opacity": admin ? 1 : 0
                                           })
         newObj.clicked.connect(function () { pointClicked()} )
     }
 }
-function createRoomList(id, numberItems) {
+function createRoomList(id, number, admin) {
     let newAddress = file.readFile("temp").split(",")
     for (let j = 2; j < id.children.length; j++) {
         id.children[j].destroy()
     }
-    for (let i = 0; i < numberItems; i++) {
-            let comp = Qt.createComponent("ItemComponents.qml")
-            let obj = comp.createObject(id, {
-                                            "roomName": newAddress[i * 2].trim(),
-                                             "anchorsVarriable": false
-                                        })
-            obj.clicked.connect(function () {
-                choseRoom(i)
-        })
+    for (let i = 0; i < number; i++) {
+       let comp = Qt.createComponent("ItemComponents.qml")
+       let obj = comp.createObject(id, {
+                                       "roomName": newAddress[i * 2].trim(),
+                                        "anchorsVarriable": false,
+                                       "adminDel": admin ? true : false,
+                                       "itemNumber": i,
+                                       "idDel": "column",
+                                       "nameFileDel": newAddress[i*2].trim()
+                                   })
+       obj.clicked.connect(function () {
+           choseRoom(i,admin ? true : false)
+       })
+    }
+}
+function createRoomListUser(id, number, admin) {
+    let newAddress = file.readFile("temp").split(",")
+    for (let i = 0; i < number; i++) {
+       let comp = Qt.createComponent("ItemUser.qml")
+       let obj = comp.createObject(id, {
+                                      "fileURL": newAddress[i*2+1]
+                                   })
+       obj.clicked.connect(function () {
+           choseRoom(i,admin ? true : false)
+       })
     }
 }
 function clearAllItems(id, name) {
@@ -66,25 +88,14 @@ function clearAllItems(id, name) {
     file.clearData(name)
 }
 
-function choseRoom(line) {
+function choseRoom(line,admin) {
     let newAddress = file.readFile("temp").split(",")
     let i = line * 2
     fileURLMain = newAddress[i + 1]
-//    if (row.children.length > 2) {
-//        for (let j = 2; j < row.children.length; j++) {
-//            row.children[j].destroy()
-//        }
-//    }
-    if (listPoint.children.length !== 0) {
-        for (let k = 1; k < listPoint.children.length; k++) {
-            listPoint.children[k].destroy()
-        }
-    }
-    createPoint(newAddress[i].trim())
+    createPoint(newAddress[i].trim(), admin ? true : false)
+    console.log(admin)
     currentRoom = newAddress[i].trim()
-    if(admin){
-        createDeviceList()
-    }
+    admin ? createDeviceList() : undefined
 }
 
 function insertImage() {
@@ -178,7 +189,28 @@ function createDeviceList() {
             let newComp = Qt.createComponent("ItemComponents.qml")
             let newObj = newComp.createObject(row, {
                                                   "roomName": newAddress[k].trim(),
-                                                  "anchorsVarriable": true
+                                                  "anchorsVarriable": true,
+                                                  "adminDel": true,
+                                                  "itemNumber": k,
+                                                  "idDel": "row",
+                                                  "nameFileDel": currentRoom
                                               })
         }
+}
+function deleteRoomOrDivice(id,number,name){
+    if(id === "row"){
+        file.deleteLine(name + "Address",number)
+        file.deleteLine(name + "DeviceName", number)
+        createPoint(name,true)
+        createDeviceList()
+    }
+    if(id === "column"){
+        file.deleteLine("temp",number)
+        createRoomList(column,file.numberLine("temp"),true)
+    }
+}
+function resets(){
+    createPoint(currentRoom,true)
+    createDeviceList()
+    createRoomList(column,file.numberLine("temp"),true)
 }

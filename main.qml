@@ -5,18 +5,17 @@ import FileIO 1.0
 import QtQuick.Dialogs 1.2
 import "."
 import "main.js" as Js
-
 Window {
     id: root
     visible: true
-    width: screen.width
-    height: screen.height
+    width: 800
+    height: 480
     title: qsTr("Smart Home")
     color: "blue"
     property bool toggleDisplay: false
     property bool hideDisplay: true
     property string fileURLMain
-    property bool admin
+    property variant admin
     property bool maDisplayMenuControl: false
     Component.onCompleted: {
 

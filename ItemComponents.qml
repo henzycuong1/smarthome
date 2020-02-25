@@ -6,9 +6,12 @@ Rectangle {
     property string roomName
     property bool anchorsVarriable
     property bool adminDel
+    property int itemNumber
+    property string idDel
+    property string nameFileDel
     signal clicked
-    width: 115
-    height: 50
+    width: 80
+    height: 35
     radius: 10
     z: 11
     MouseArea {
@@ -20,7 +23,6 @@ Rectangle {
         onEntered: {
             parent.color = "blue"
             adminDel ? del.visible = true : undefined
-            console.log(adminDel)
         }
         onExited: {
             parent.color = "white"
@@ -34,8 +36,8 @@ Rectangle {
     }
     Rectangle{
         id: del
-        width:100
-        height: 50
+        width:80
+        height: 35
         color: "black"
         visible: false
         radius: 10
@@ -54,11 +56,11 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             onClicked: {
-                console.log("Clicked")
+                Js.deleteRoomOrDivice(idDel,itemNumber, nameFileDel)
             }
             onEntered: {
                 parent.color = "blue"
-                adminDel ? del.visible = true : undefined
+               adminDel ? del.visible = true : undefined
             }
             onExited: {
                 parent.color = "black"
