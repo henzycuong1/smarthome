@@ -1,7 +1,7 @@
-import QtQuick 2.14
-import QtQuick.Window 2.14
-import QtQuick.Controls 2.5
-import QtQuick.Dialogs 1.2
+import QtQuick 2.12
+import QtQuick.Window 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Dialogs 1.0
 import FileIO 1.0
 import "."
 import "main.js" as Js
@@ -283,6 +283,7 @@ Item {
             text: ""
             font.family: robotoLight.name
             placeholderText: "Nhập tên phòng"
+//            focus: Qt.inputMethod.visible;
             font.pixelSize: 14
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left

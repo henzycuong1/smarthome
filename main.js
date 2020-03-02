@@ -2,15 +2,20 @@ var newThietBi
 var newComp
 var specialCharacters = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/
 console.log("Js's running")
+function showLockScreen(){
+    var x = set
+}
+
 function checkLogin(id, password) {
     if (id === "a" && password === "a") {
         maFormLogin.visible = false
         maMenuAdminTTB.visible = true
+        maBackground.tSmartHomeVisiable = false
         admin = true
     } else if (specialCharacters.test(id) || specialCharacters.test(password)) {
-        console.log("Tài khoản hoặc Mật khẩu không thể chứa ký tự đặc biệt")
+        console.log("Tài khoản hoặc Mật khẩu không thể chứa ký tự đặc biệt hoặc dấu cách")
         messageBox.newTitle = "Lỗi đăng nhập"
-        messageBox.newText = "Tài khoản hoặc Mật khẩu không thể chứa ký tự đặc biệt"
+        messageBox.newText = "Tài khoản hoặc Mật khẩu không thể chứa ký tự đặc biệt hoặc dấu cách"
         messageBox.visible = true
         admin = false
     } else if (id === "" || password === "") {
@@ -28,6 +33,7 @@ function checkLogin(id, password) {
 }
 function pointClicked() {
     maDisplayMenuControl = !maDisplayMenuControl;
+
 }
 function createPoint(name, admin) {
     if (listPoint.children.length !== 0) {
@@ -36,13 +42,16 @@ function createPoint(name, admin) {
         }
     }
     let newAddress = file.readFile(name + "Address").split(",")
+    let getCode = file.readFile(name + "DeviceName").split(",")
     for (let i = 0; i < newAddress.length / 2 - 1; i++) {
         let j = i * 2
         let newComp = Qt.createComponent("ThemMoiThietBi.qml")
         let newObj = newComp.createObject(listPoint, {
                                               "x": Number(newAddress[j]),
                                               "y": Number(newAddress[j + 1]),
-                                              "opacity": admin ? 1 : 0
+                                              "opacity": admin ? 1 : 1,
+                                              "code": Number(getCode[j + 1]),
+                                              "hoverItem": admin ? false : true
                                           })
         newObj.clicked.connect(function () { pointClicked()} )
     }
@@ -132,9 +141,9 @@ function createNewFile(name) {
         file.writeFile("temp", name + "," + fileURL + ",")
         displayFormInput = false
     } else {
-        console.log("Vui lòng không nhập ký tự đặc biệt !")
+        console.log("Vui lòng không nhập ký tự đặc biệt hoặc dấu cách!")
         messageBox.newTitle = "Lỗi nhập tên"
-        messageBox.newText = "Vui lòng không nhập ký tự đặc biệt !"
+        messageBox.newText = "Vui lòng không nhập ký tự đặc biệt hoặc dấu cách!"
         messageBox.visible = true
     }
 }
@@ -153,31 +162,34 @@ function continueDrag(mouse) {
     newThietBi.y = mouse.y - newThietBi.height / 2
 }
 function endDrag(name) {
+    newThietBi.x > 500 ? newThietBi.rightInput = true : newThietBi.leftInput = true
     newThietBi.displayDeviceInput = true
+    console.log(newThietBi.x + " " + newThietBi.rightInput + " " + newThietBi.leftInput)
     if (!specialCharacters.test(currentRoom)) {
         file.writeFile(name + "Address",
                        newThietBi.x + "," + newThietBi.y + ",")
     }
 }
-function createDevice() {
-    if (currentDeviceName === "") {
-        console.log("Vui lòng không để trống tên thiết bị!")
-        messageBox.newTitle = "Lỗi nhập tên"
-        messageBox.newText = "Vui lòng không để trống tên thiết bị!"
-        messageBox.visible = true
-        return
-    }
-    if (!specialCharacters.test(currentDeviceName)) {
-        file.writeFile(currentRoom + "DeviceName", currentDeviceName + ",")
+function createDevice(index) {
+//    if (currentDeviceName === "") {
+//        console.log("Vui lòng không để trống tên thiết bị!")
+//        messageBox.newTitle = "Lỗi nhập tên"
+//        messageBox.newText = "Vui lòng không để trống tên thiết bị!"
+//        messageBox.visible = true
+//        return
+//    }
+//    if (!specialCharacters.test(currentDeviceName)) {
+        file.writeFile(currentRoom + "DeviceName", currentDeviceName + "," + index + ",")
         menuAdminTP.opacity = 1
         menuAdminTTB.opacity = 1
         displayDeviceInput = false
-    } else {
-        console.log("Vui lòng không để trống hoặc nhập ký tự đặc biệt !")
-        messageBox.newTitle = "Lỗi nhập tên"
-        messageBox.newText = "Vui lòng không để trống hoặc nhập ký tự đặc biệt !"
-        messageBox.visible = true
-    }
+//    } else {
+//        console.log("Vui lòng không để trống hoặc nhập ký tự đặc biệt !")
+//        messageBox.newTitle = "Lỗi nhập tên"
+//        messageBox.newText = "Vui lòng không để trống hoặc nhập ký tự đặc biệt !"
+//        messageBox.visible = true
+//        return
+//    }
 }
 
 function createDeviceList() {
@@ -185,10 +197,11 @@ function createDeviceList() {
         for (let j = 2; j < row.children.length; j++) {
             row.children[j].destroy()
         }
-        for (let k = 0; k < newAddress.length - 1; k++) {
+        console.log(newAddress)
+        for (let k = 0; k < file.numberLine(currentRoom + "DeviceName"); k++) {
             let newComp = Qt.createComponent("ItemComponents.qml")
             let newObj = newComp.createObject(row, {
-                                                  "roomName": newAddress[k].trim(),
+                                                  "roomName": newAddress[k*2],
                                                   "anchorsVarriable": true,
                                                   "adminDel": true,
                                                   "itemNumber": k,
@@ -213,4 +226,42 @@ function resets(){
     createPoint(currentRoom,true)
     createDeviceList()
     createRoomList(column,file.numberLine("temp"),true)
+}
+function dislayButton(codeNumber){
+    console.log(codeNumber)
+    if(codeNumber === 1 && admin === false){
+        maButtonControl.displayBOnOff = true
+        maButtonControl.displayBSpeed = true
+        maButtonControl.displayBTemperature = false
+        maButtonControl.displayBVolume = false
+        maButtonControl.onOffTemperature = false
+        return
+    }
+    if(codeNumber === 0 && admin === false) {
+        maButtonControl.displayBOnOff = true
+        maButtonControl.displayBSpeed = false
+        maButtonControl.displayBTemperature = false
+        maButtonControl.displayBVolume = false
+        maButtonControl.onOffVolume = false
+        maButtonControl.onOffTemperature = false
+        return
+    }
+    if(codeNumber === 3 && admin === false){
+        maButtonControl.displayBOnOff = true
+        maButtonControl.displayBSpeed = false
+        maButtonControl.displayBTemperature = true
+        maButtonControl.displayBVolume = false
+        maButtonControl.onOffVolume = false
+        maButtonControl.onOffSpeed = false
+        maButtonControl.onOffTemperature = false
+        return
+    }
+    if(codeNumber === 2 && admin === false){
+        maButtonControl.displayBOnOff = true
+        maButtonControl.displayBSpeed = false
+        maButtonControl.displayBTemperature = false
+        maButtonControl.displayBVolume = true
+        maButtonControl.onOffTemperature = false
+        return
+    }
 }

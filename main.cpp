@@ -1,13 +1,15 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QtQuick>
+#include <QQuickView>
 #include <QQmlEngine>
 #include <fileIO.h>
+
 int main(int argc, char *argv[])
 {
-
+     qmlRegisterType<FileIO>("FileIO", 1, 0, "FileIO");
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
+    qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
     QGuiApplication app(argc, argv);
     app.setOrganizationName("fileDialog");
     app.setOrganizationDomain("fileDialog");
@@ -18,8 +20,9 @@ int main(int argc, char *argv[])
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
-    qmlRegisterType<FileIO>("FileIO", 1, 0, "FileIO");
-    engine.load(url);
 
+    engine.load(url);
+    qDebug() << "this is main, thread id's " << app.thread() -> currentThread();
     return app.exec();
 }
+

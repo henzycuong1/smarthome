@@ -32,5 +32,17 @@
         <file>icon/change.png</file>
         <file>icon/change2.png</file>
         <file>icon/circle.png</file>
+        <file>ButtonControl.qml</file>
+        <file>LockScreen.qml</file>
+        <file>icon/Background.png</file>
+        <file>icon/Logo.png</file>
+        <file>icon/CO.png</file>
+        <file>icon/fire.png</file>
+        <file>icon/gas.png</file>
+        <file>icon/humidity.png</file>
+        <file>icon/temperature.png</file>
+        <file>icon/unlock.png</file>
+        <file>icon/water.png</file>
+        <file>icon/Background.bmp</file>
     </qresource>
 </RCC>

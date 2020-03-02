@@ -1,6 +1,6 @@
-import QtQuick 2.0
-import QtQuick.Window 2.3
-import QtQuick.Controls 2.5
+import QtQuick 2.12
+import QtQuick.Window 2.0
+import QtQuick.Controls 2.12
 import "main.js" as Js
 
 Rectangle {
@@ -9,17 +9,40 @@ Rectangle {
     height: 100
     signal clicked
     color: "transparent"
-    border.color: "black"
+    border.color: hoverItem ? "yellow" : "black"
     border.width: 1
     property bool displayDeviceInput: false
     property string currentDeviceName: inputDeviceName.text
+    property int code
+    property bool hoverItem: false
+    property bool leftInput: false
+    property bool rightInput: false
     z: 10
     MouseArea {
         anchors.fill: parent
+//        hoverEnabled: hoverItem ? true : false
         onClicked: {
             parent.clicked()
+            Js.dislayButton(clickArea.code)
         }
+//        onEntered: {
+//            parent.opacity = 1
+//            parent.border.color = "yellow"
+//        }
+//        onExited: {
+//            parent.opacity = 0
+//             parent.border.color = "black"
+//        }
     }
+    OpacityAnimator{
+        target: clickArea
+        from:1
+        to: 0
+        duration: 30000
+        running: hoverItem ? true : false
+        loops: Animation.Infinite
+    }
+
     Text {
         id: nameDivice
         text: ""
@@ -36,25 +59,48 @@ Rectangle {
         border.width: 1
         radius: 10
         anchors {
-            left: parent.right
-            leftMargin: 10
+            left: leftInput ? parent.right : undefined
+            right: rightInput ? parent.left : undefined
+            leftMargin: leftInput ? 10 : undefined
+            rightMargin: rightInput ? 10 : undefined
             verticalCenter: parent.verticalCenter
         }
-        TextField {
-            width: 115
-            id: inputDeviceName
-            text: ""
-            font.family: robotoLight.name
-            placeholderText: "Nhập tên thiết bị"
-            font.pixelSize: 14
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
-            anchors.leftMargin: 5
-            background: Rectangle {
-                border.color: "transparent"
-                color: "transparent"
+//        TextField {
+//            width: 115
+//            id: inputDeviceName
+//            text: ""
+//            font.family: robotoLight.name
+//            placeholderText: "Nhập tên thiết bị"
+//            font.pixelSize: 14
+//            anchors.verticalCenter: parent.verticalCenter
+//            anchors.left: parent.left
+//            anchors.leftMargin: 5
+//            background: Rectangle {
+//                border.color: "transparent"
+//                color: "transparent"
+//            }
+//        }
+        ComboBox{
+            id: inputDiviceName
+            width: 120
+            model: ["Đèn", "Quạt", "Tivi", "Điềuhòa"]
+            onActivated: {
+                currentDeviceName = currentText
+            }
+            anchors{
+                verticalCenter: parent.verticalCenter
+                left: parent.left
+                leftMargin: 5
+            }
+
+            Component.onCompleted: currentDeviceName = currentText
+            background: Rectangle{
+                color:"white"
+                radius: 10
+                height: 30
             }
         }
+
         Rectangle {
             width: 50
             height: 40
@@ -71,9 +117,8 @@ Rectangle {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    Js.createDevice();
-                    currentDeviceName = inputDeviceName.text;
-                    Js.createDeviceList(row);
+                    Js.createDevice(inputDiviceName.currentIndex);
+                    Js.createDeviceList();
                 }
             }
         }

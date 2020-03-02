@@ -1,25 +1,29 @@
-import QtQuick 2.0
+import QtQuick 2.12
 import QtGraphicalEffects 1.0
 import "main.js" as Js
 import "."
 
-Rectangle {
-    id: rectangle
-    width: 800
-    height: 480
-    color: "#72c994"
+Image {
+    id: background
+    property bool tSmartHomeVisiable
+//    width: 800
+//    height: 480
+//    color: "#72c994"
     z: -2
-    gradient: Gradient {
-        GradientStop {
-            position: 0
-            color: "#72c994"
-        }
+//    gradient: Gradient {
+//        GradientStop {
+//            position: 0
+//            color: "#72c994"
+//        }
 
-        GradientStop {
-            position: 1
-            color: "#2d897e"
-        }
-    }
+//        GradientStop {
+//            position: 1
+//            color: "#2d897e"
+//        }
+//    }
+    source: "icon/Background.bmp"
+    sourceSize.width: 800
+    sourceSize.height: 480
     FontLoader {
         id: robotoBold
         name: "roboto bold"
@@ -35,71 +39,32 @@ Rectangle {
         name: "roboto regular"
         source: "Font/Roboto-Regular.ttf"
     }
-    Rectangle {
-        id: rectangle1
-        x: 748
-        y: 78
-        width: 200
-        height: 200
-        color: "#ffffff"
-        radius: 100
-        opacity: 0.1
-        border.width: 0
+    Image{
+        id: logo
+        width: 360
+        height: 132
+        source: "icon/Logo.png"
+        visible: true
+        anchors{
+            top: tSmartHomeVisiable ? parent.top : undefined
+            topMargin: tSmartHomeVisiable ? 10 : undefined
+            horizontalCenter:  tSmartHomeVisiable ? parent.horizontalCenter : undefined
+            centerIn: tSmartHomeVisiable ? undefined : parent
+        }
     }
 
-    Rectangle {
-        id: rectangle2
-        x: 626
-        y: 167
-        width: 200
-        height: 200
-        color: "#ffffff"
-        radius: 100
-        border.width: 0
-        opacity: 0.1
-    }
-
-    Rectangle {
-        id: rectangle3
-        x: -141
-        y: -68
-        width: 200
-        height: 200
-        color: "#ffffff"
-        radius: 100
-        opacity: 0.1
-        border.width: 0
-    }
-
-    Rectangle {
-        id: rectangle4
-        x: -13
-        y: -156
-        width: 200
-        height: 200
-        color: "#ffffff"
-        radius: 100
-        border.width: 0
-        opacity: 0.1
-    }
-    Text {
-        id: tSmartHome
-        y: 26
-        anchors.horizontalCenter: parent.horizontalCenter
-        color: "#ffffff"
-        text: qsTr("SMART HOME")
-        font.bold: true
-        font.family: robotoBold.name
-        font.pixelSize: 40
-    }
-
-    Text {
-        id: tContent
-        anchors.horizontalCenter: parent.horizontalCenter
-        y: 84
-        color: "#ffffff"
-        text: qsTr("Một quản gia đặc biệt cho ngôi nhà của bạn.")
-        font.family: robotoBold.name
-        font.pixelSize: 20
-    }
+//    Text {
+//        id: tSmartHome
+//        visible: tSmartHomeVisiable
+//        anchors{
+//            top: logo.bottom
+//            topMargin: 10
+//            horizontalCenter: parent.horizontalCenter
+//        }
+//        color: "#ffffff"
+//        text: qsTr("SMART HOME")
+//        font.bold: true
+//        font.family: robotoBold.name
+//        font.pixelSize: 40
+//    }
 }

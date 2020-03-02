@@ -4,6 +4,7 @@
 #include <QQuickItem>
 #include <QQuickView>
 #include <QProcess>
+#include <QTimer>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -11,6 +12,7 @@
 class FileIO : public QObject
 {
     Q_OBJECT
+    QTimer myTime;
 public:
     explicit FileIO(QObject *parent = 0) : QObject(parent) {}
 public slots:
@@ -69,6 +71,4 @@ public slots:
         QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
     }
 };
-
-
 #endif

@@ -1,5 +1,6 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.5
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.VirtualKeyboard 2.1
 import "."
 import "main.js" as Js
 
@@ -51,6 +52,7 @@ Rectangle {
         width: 445
         height: 29
         text: qsTr("")
+//        focus: Qt.inputMethod.visible;
         font.family: robotoLight.name
         placeholderText: "Email hoặc số điện thoại"
         background: Rectangle {
@@ -65,6 +67,7 @@ Rectangle {
         width: 445
         height: 29
         text: qsTr("")
+//        focus: Qt.inputMethod.visible;
         font.family: robotoLight.name
         placeholderText: "Password"
         echoMode: TextInput.Password
@@ -72,7 +75,6 @@ Rectangle {
             border.color: "transparent"
         }
     }
-
     Button {
         id: bFormLogin
         x: 28
@@ -166,9 +168,4 @@ Rectangle {
     }
 }
 
-/*##^##
-Designer {
-    D{i:10;anchors_height:433;anchors_width:440;anchors_x:0}D{i:13;anchors_height:433;anchors_width:440;anchors_x:0}
-}
-##^##*/
 
