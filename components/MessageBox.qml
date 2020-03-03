@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import "main.js" as Js
+import "../main.js" as Js
 
 Rectangle {
     id: messageBox
@@ -51,12 +51,7 @@ Rectangle {
             id: tTextMessageBox
             text: newText
             wrapMode: Text.Wrap
-            anchors{
-                top: parent.top
-                left: parent.left
-                topMargin: 5
-                leftMargin: 5
-            }
+            anchors.centerIn: parent
             color: "black"
         }
         Rectangle{

@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.0
 import QtQuick.Controls 2.12
-import "main.js" as Js
+import "../main.js" as Js
 
 Rectangle {
     id: clickArea
@@ -17,22 +17,12 @@ Rectangle {
     property bool hoverItem: false
     property bool leftInput: false
     property bool rightInput: false
-    z: 10
     MouseArea {
         anchors.fill: parent
-//        hoverEnabled: hoverItem ? true : false
         onClicked: {
             parent.clicked()
             Js.dislayButton(clickArea.code)
         }
-//        onEntered: {
-//            parent.opacity = 1
-//            parent.border.color = "yellow"
-//        }
-//        onExited: {
-//            parent.opacity = 0
-//             parent.border.color = "black"
-//        }
     }
     OpacityAnimator{
         target: clickArea
@@ -65,21 +55,6 @@ Rectangle {
             rightMargin: rightInput ? 10 : undefined
             verticalCenter: parent.verticalCenter
         }
-//        TextField {
-//            width: 115
-//            id: inputDeviceName
-//            text: ""
-//            font.family: robotoLight.name
-//            placeholderText: "Nhập tên thiết bị"
-//            font.pixelSize: 14
-//            anchors.verticalCenter: parent.verticalCenter
-//            anchors.left: parent.left
-//            anchors.leftMargin: 5
-//            background: Rectangle {
-//                border.color: "transparent"
-//                color: "transparent"
-//            }
-//        }
         ComboBox{
             id: inputDiviceName
             width: 120

@@ -3,11 +3,10 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Dialogs 1.0
 import FileIO 1.0
-import "."
-import "main.js" as Js
+import "../main.js" as Js
 
 Item {
-    id: containerMenu
+    id: containerMenuAdmin
     width: parent.width
     height: parent.height
     property string fileURL
@@ -15,38 +14,29 @@ Item {
     property string currentRoom
     property bool pressed: false
     property bool dialogPressed: false
-    z: 9
-    FontLoader {
-        id: robotoBold
-        name: "roboto bold"
-        source: "Font/Roboto-Bold.ttf"
-    }
     FontLoader {
         id: robotoLight
         name: "roboto light"
-        source: "Font/Roboto-Light.ttf"
-    }
-    FontLoader {
-        id: robotoRegular
-        name: "roboto regular"
-        source: "Font/Roboto-Regular.ttf"
+        source: "../Font/Roboto-Light.ttf"
     }
     FileIO {
         id: file
     }
-
+    Component.onCompleted: {
+        Js.createRoomList(column, true)
+    }
     Rectangle {
-        id: menuAdminTTB
+        id: menuAdminAddNewDevice
         height: 50
+        visible: column.children.length > 2 ? true : false
         anchors {
             top: parent.top
             left: parent.left
             right: parent.right
+            topMargin: containerMenuAdmin.pressed ? -50 : undefined
         }
         color: "black"
-        radius: 9
         opacity: 0.7
-        z: 9
         Row {
             id: row
             spacing: 10
@@ -54,30 +44,29 @@ Item {
             bottomPadding: 7.5
             leftPadding: 10
             Rectangle {
-                id: rowChild
                 width: 100
                 height: 35
                 x: 50
                 radius: 10
                 Text {
-                    id: tThemThietBi
+                    id: tAddNewDevice
                     text: "Thêm thiết bị"
                     font.family: robotoLight.name
                     font.pointSize: 9
                     anchors{
                         right: parent.right;
-                        rightMargin: 3;
+                        rightMargin: 5;
                         verticalCenter: parent.verticalCenter;
                     }
                 }
                 Image {
-                    id: iconThemThietBi
-                    source: "icon/add.png"
+                    id: iconAddNewDevice
+                    source: "../icon/add.png"
                     sourceSize.width: 15
                     sourceSize.height: 15
                     anchors{
                         left: parent.left
-                        leftMargin: 3
+                        leftMargin: 5
                         verticalCenter: parent.verticalCenter
                     }
                 }
@@ -86,22 +75,21 @@ Item {
                     hoverEnabled: true
                     onPressed: {
                         Js.startDrag(mouse)
-                        containerMenu.pressed = true
+                        containerMenuAdmin.pressed = true
                     }
                     onPositionChanged: {
-                        containerMenu.pressed ? Js.continueDrag(mouse) : ""
+                        containerMenuAdmin.pressed ? Js.continueDrag(mouse) : ""
                     }
                     onReleased: {
                         Js.endDrag(currentRoom)
-                        containerMenu.pressed = false
                     }
                     onEntered: {
                         parent.color = "blue"
-                        tThemThietBi.color = "white"
+                        tAddNewDevice.color = "white"
                     }
                     onExited: {
                         parent.color = "white"
-                        tThemThietBi.color = "black"
+                        tAddNewDevice.color = "black"
                     }
                 }
             }
@@ -111,19 +99,18 @@ Item {
                 height: 35
                 radius: 10
                 Text {
-                    id: tXoaToanBoTTB
+                    id: tDeleteAllDevice
                     text: "Xóa toàn bộ"
                     font.family: robotoLight.name
                     font.pointSize: 9
                     anchors{
                         right: parent.right;
-                        rightMargin: 3
+                        rightMargin: 5
                         verticalCenter: parent.verticalCenter
                     }
                 }
                 Image {
-                    id: iconXoaTB
-                    source: "icon/trash.png"
+                    source: "../icon/trash.png"
                     sourceSize.width: 15
                     sourceSize.height: 15
                     anchors{
@@ -136,33 +123,32 @@ Item {
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: {
-                        Js.clearAllItems(row, currentRoom + "Address")
-                        Js.clearAllItems(row, currentRoom + "DeviceName")
+                        Js.clearAllItems(row, currentRoom)
                     }
                     onEntered: {
                         parent.color = "blue"
-                        tXoaToanBoTTB.color = "white"
+                        tDeleteAllDevice.color = "white"
                     }
                     onExited: {
                         parent.color = "white"
-                        tXoaToanBoTTB.color = "black"
+                        tDeleteAllDevice.color = "black"
                     }
                 }
             }
         }
     }
     Rectangle {
-        id: menuAdminTP
+        id: menuAdminAddRoom
         anchors {
             left: parent.left
             top: parent.top
-            topMargin: 50
+            topMargin: menuAdminAddNewDevice.visible ? 50 : undefined
             bottom: parent.bottom
+            leftMargin: containerMenuAdmin.pressed ? -100 : undefined
         }
         width: 100
         color: "black"
         opacity: 0.7
-        z: 10
         Column {
             id: column
             spacing: 10
@@ -174,7 +160,7 @@ Item {
                 height: 70
                 radius: 10
                 Text {
-                    id: tThemPhong
+                    id: tAddRoom
                     text: "Thêm Phòng"
                     font.family: robotoLight.name
                     font.pointSize: 9
@@ -185,8 +171,7 @@ Item {
                     }
                 }
                 Image {
-                    id: iconThemPhong
-                    source: "icon/addroom.png"
+                    source: "../icon/addroom.png"
                     sourceSize.width: 50
                     sourceSize.height: 45
                     anchors{
@@ -201,11 +186,11 @@ Item {
                     onClicked: fileDialog.visible = true
                     onEntered: {
                         parent.color = "blue"
-                        tThemPhong.color = "white"
+                        tAddRoom.color = "white"
                     }
                     onExited: {
                         parent.color = "white"
-                        tThemPhong.color = "black"
+                        tAddRoom.color = "black"
                     }
                 }
                 FileDialog {
@@ -213,9 +198,8 @@ Item {
                     title: "Chọn phòng"
                     folder: shortcuts.home
                     onAccepted: {
-                        containerMenu.fileURL = fileUrl
+                        containerMenuAdmin.fileURL = fileUrl
                         Js.insertImage()
-                        Js.createRoomList(column, file.numberLine("temp"),true)
                     }
                 }
             }
@@ -224,7 +208,7 @@ Item {
                 height: 70
                 radius: 10
                 Text {
-                    id: tXoaToanBoTB
+                    id: tDeleteAllRoom
                     text: "Xóa toàn bộ"
                     font.family: robotoLight.name
                     font.pointSize: 9
@@ -236,8 +220,7 @@ Item {
 
                 }
                 Image {
-                    id: iconXoaPhong
-                    source: "icon/trash.png"
+                    source: "../icon/trash.png"
                     sourceSize.width: 40
                     sourceSize.height: 40
                     anchors{
@@ -250,68 +233,95 @@ Item {
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: {
-                        Js.clearAllItems(column, "temp")
+                        Js.clearAllItems(column, currentRoom)
                     }
                     onEntered: {
                         parent.color = "blue"
-                        tXoaToanBoTB.color = "white"
+                        tDeleteAllRoom.color = "white"
                     }
                     onExited: {
                         parent.color = "white"
-                        tXoaToanBoTB.color = "black"
+                        tDeleteAllRoom.color = "black"
                     }
                 }
-            }
-            Component.onCompleted: {
-            Js.createRoomList(column, file.numberLine("temp"), true)
             }
         }
     }
     Rectangle {
         id: formInputRoomName
         visible: displayFormInput
-        width: 200
-        height: 50
+        width: 400
+        height: 110
         color: "transparent"
         border.color: "black"
         border.width: 1
-        radius: 10
-        anchors.centerIn: containerMenu
-        TextField {
-            width: 115
-            id: inputRoomName
-            text: ""
-            font.family: robotoLight.name
-            placeholderText: "Nhập tên phòng"
-//            focus: Qt.inputMethod.visible;
-            font.pixelSize: 14
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
-            anchors.leftMargin: 5
-            background: Rectangle {
-                border.color: "transparent"
-                color: "transparent"
+        anchors.centerIn: containerMenuAdmin
+        Rectangle{
+            id: titleFormInputRoomName
+            color: "black"
+            height: 30
+            anchors{
+                top: parent.top
+                right: parent.right
+                left: parent.left
+            }
+            Text {
+                text: "Nhập tên phòng"
+                anchors.centerIn: parent
+                font.family: robotoLight.name
+                color: "white"
             }
         }
-        Rectangle {
-            width: 50
-            height: 40
-            color: "black"
-            radius: 10
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: parent.right
-            anchors.rightMargin: 5
-            Text {
-                color: "white"
-                text: "OK"
-                anchors.centerIn: parent
+        Rectangle{
+            anchors{
+                top: titleFormInputRoomName.bottom
+                right: parent.right
+                left: parent.left
+                bottom: parent.bottom
             }
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    Js.createNewFile(inputRoomName.text)
-                    currentRoom = inputRoomName.text
-                    Js.createRoomList(column, file.numberLine("temp"), true)
+            TextField {
+                id: inputRoomName
+                anchors{
+                    verticalCenter: parent.verticalCenter
+                    right: parent.right
+                    left: parent.left
+                    rightMargin: 75
+                    leftMargin: 25
+                }
+                height: 35
+                text: ""
+                font.family: robotoLight.name
+                placeholderText: "Nhập tên phòng.."
+                font.pixelSize: 14
+                color: "black"
+                background: Rectangle {
+                    border.color: "black"
+                    border.width: 1
+                    color: "transparent"
+                    radius: 10
+                }
+            }
+            Rectangle {
+                width: 50
+                height: 40
+                color: "black"
+                radius: 10
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                Text {
+                    color: "white"
+                    text: "OK"
+                    anchors.centerIn: parent
+                    font.family: robotoLight.name
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        currentRoom = inputRoomName.text
+                        Js.createNewRoom(inputRoomName.text, fileDialog.fileUrl)
+                        Js.createRoomList(column, true)
+                    }
                 }
             }
         }
@@ -334,11 +344,12 @@ Item {
         Text {
             text: "Hoàn thành"
             anchors.centerIn: parent
+            font.family: robotoLight.name
         }
         MouseArea{
             anchors.fill: parent
             onClicked:{
-               file.restart();
+                file.restart();
             }
         }
     }
@@ -360,11 +371,12 @@ Item {
         Text {
             text: "Làm mới"
             anchors.centerIn: parent
+            font.family: robotoLight.name
         }
         MouseArea{
             anchors.fill: parent
             onClicked:{
-               Js.resets()
+                Js.resets()
             }
         }
     }

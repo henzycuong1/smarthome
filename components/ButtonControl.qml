@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.0
-import "main.js" as Js
+import "../main.js" as Js
 RowLayout {
     property bool onOff: false
     property bool onOffSpeed: false
@@ -43,7 +43,7 @@ RowLayout {
         }
         Image{
             id: iconOnOff
-            source: onOff ? "icon/lighton.png" : "icon/lightoff.png"
+            source: onOff ? "../icon/lighton.png" : "../icon/lightoff.png"
             anchors{
                 top: parent.top
                 topMargin: 2

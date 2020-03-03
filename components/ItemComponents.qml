@@ -1,20 +1,25 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import "main.js" as Js
+import "../main.js" as Js
 Rectangle {
     id: itemComponents
-    property string roomName
+    property string currentName
     property bool anchorsVarriable
     property bool adminDel
     property int itemNumber
     property string idDel
     property string nameFileDel
+    property string fileURL
     signal clicked
-    width: 80
-    height: 35
+    width: adminDel ? 80 : 85
+    height: adminDel ? 35 : 85
     radius: 10
+    color: adminDel ? "white" : "transparent"
+    border.color: adminDel ? "transparent" : "white"
+    border.width: adminDel ? 0 : 2
     z: 11
     MouseArea {
+        visible: adminDel ? true : false
         anchors.fill: parent
         hoverEnabled: true
         onClicked: {
@@ -30,9 +35,10 @@ Rectangle {
         }
     }
     Text {
+        visible: adminDel ? true : false
         anchors.centerIn: parent
         id: tRoomName
-        text: roomName
+        text: currentName
     }
     Rectangle{
         id: del
@@ -66,6 +72,21 @@ Rectangle {
                 parent.color = "black"
                 del.visible = false
             }
+        }
+    }
+    Image {
+        visible: adminDel ? false : true
+        id: imageItemUser
+        source: fileURL
+        sourceSize.height: 83
+        sourceSize.width: 83
+        anchors.centerIn: parent
+    }
+    MouseArea{
+        visible: adminDel ? false : true
+        anchors.fill: parent
+        onClicked: {
+            parent.clicked()
         }
     }
 }

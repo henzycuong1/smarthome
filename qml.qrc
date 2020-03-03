@@ -1,28 +1,11 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>ThemMoiThietBi.qml</file>
-        <file>MenuUsers.qml</file>
-        <file>Background.qml</file>
-        <file>FormLogin.qml</file>
-        <file>Font/Roboto-Black.ttf</file>
-        <file>Font/Roboto-BlackItalic.ttf</file>
         <file>Font/Roboto-Bold.ttf</file>
-        <file>Font/Roboto-BoldItalic.ttf</file>
-        <file>Font/Roboto-Italic.ttf</file>
         <file>Font/Roboto-Light.ttf</file>
-        <file>Font/Roboto-LightItalic.ttf</file>
         <file>Font/Roboto-Medium.ttf</file>
-        <file>Font/Roboto-MediumItalic.ttf</file>
         <file>Font/Roboto-Regular.ttf</file>
-        <file>Font/Roboto-Thin.ttf</file>
-        <file>Font/Roboto-ThinItalic.ttf</file>
         <file>main.js</file>
-        <file>MenuAdminTTB.qml</file>
-        <file>ItemComponents.qml</file>
-        <file>Room.qml</file>
-        <file>MessageBox.qml</file>
-        <file>ItemUser.qml</file>
         <file>icon/add.png</file>
         <file>icon/addroom.png</file>
         <file>icon/closebutton.png</file>
@@ -32,8 +15,6 @@
         <file>icon/change.png</file>
         <file>icon/change2.png</file>
         <file>icon/circle.png</file>
-        <file>ButtonControl.qml</file>
-        <file>LockScreen.qml</file>
         <file>icon/Background.png</file>
         <file>icon/Logo.png</file>
         <file>icon/CO.png</file>
@@ -44,5 +25,15 @@
         <file>icon/unlock.png</file>
         <file>icon/water.png</file>
         <file>icon/Background.bmp</file>
+        <file>components/Background.qml</file>
+        <file>components/ButtonControl.qml</file>
+        <file>components/FormLogin.qml</file>
+        <file>components/ItemComponents.qml</file>
+        <file>components/LockScreen.qml</file>
+        <file>components/MenuAdmin.qml</file>
+        <file>components/MenuUsers.qml</file>
+        <file>components/MessageBox.qml</file>
+        <file>components/Room.qml</file>
+        <file>components/NewDevice.qml</file>
     </qresource>
 </RCC>

@@ -1,30 +1,17 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import "main.js" as Js
+import "../main.js" as Js
 Rectangle {
     id: lockScreen
-//    source: "icon/Background.png"
-//    sourceSize.width: 800
-//    sourceSize.height: 480
     width: 800
     height: 480
     color: "black"
     property int lockScreenY: lockScreen.y
     signal doubleClicked
     FontLoader {
-        id: robotoBold
-        name: "roboto bold"
-        source: "Font/Roboto-Bold.ttf"
-    }
-    FontLoader {
         id: robotoLight
         name: "roboto light"
-        source: "Font/Roboto-Light.ttf"
-    }
-    FontLoader {
-        id: robotoRegular
-        name: "roboto regular"
-        source: "Font/Roboto-Regular.ttf"
+        source: "../Font/Roboto-Light.ttf"
     }
     MouseArea{
         anchors.fill: parent
@@ -46,7 +33,7 @@ Rectangle {
     }
     Image{
         id: iconTemperature
-        source: "icon/temperature.png"
+        source: "../icon/temperature.png"
         sourceSize.width: 65
         sourceSize.height: 170
         anchors{
@@ -70,7 +57,7 @@ Rectangle {
     }
     Image{
         id: iconHumidity
-        source: "icon/humidity.png"
+        source: "../icon/humidity.png"
         sourceSize.width: 100
         sourceSize.height: 120
         anchors{
@@ -108,7 +95,7 @@ Rectangle {
     }
     Image {
         id: iconFire
-        source: "icon/fire.png"
+        source: "../icon/fire.png"
         sourceSize.width: 90
         sourceSize.height: 130
         anchors{
@@ -119,7 +106,7 @@ Rectangle {
     }
     Image {
         id: iconWater
-        source: "icon/water.png"
+        source: "../icon/water.png"
         sourceSize.width: 145
         sourceSize.height: 120
         anchors{
@@ -130,7 +117,7 @@ Rectangle {
     }
     Image {
         id: iconGas
-        source: "icon/gas.png"
+        source: "../icon/gas.png"
         sourceSize.width: 85
         sourceSize.height: 125
         anchors{
@@ -157,7 +144,7 @@ Rectangle {
     }
     Image{
         id: iconCO
-        source: "icon/CO.png"
+        source: "../icon/CO.png"
         sourceSize.width: 120
         sourceSize.height: 80
         anchors{
@@ -196,7 +183,7 @@ Rectangle {
     }
     Image{
         id: iconUnLock
-        source: "icon/unlock.png"
+        source: "../icon/unlock.png"
         sourceSize.width: 80
         sourceSize.height: 100
         anchors{

@@ -4,10 +4,9 @@
 #include <QQuickView>
 #include <QQmlEngine>
 #include <fileIO.h>
-
 int main(int argc, char *argv[])
 {
-     qmlRegisterType<FileIO>("FileIO", 1, 0, "FileIO");
+    qmlRegisterType<FileIO>("FileIO", 1, 0, "FileIO");
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
     QGuiApplication app(argc, argv);

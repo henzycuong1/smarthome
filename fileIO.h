@@ -17,15 +17,15 @@ public:
     explicit FileIO(QObject *parent = 0) : QObject(parent) {}
 public slots:
     void writeFile(const QString &nameFile,const QString &text) {
-        QString urlFile = "../" + nameFile + ".tmp";
+        QString urlFile = "../smarthome/" + nameFile;
         QFile file(urlFile);
-        if (!file.open(QFile::Append | QFile::Text)) return;
+        if (!file.open(QFile::WriteOnly | QFile::Text)) return;
         QTextStream out(&file);
         out << text << endl;
         file.close();
     }
     QString readFile(const QString &nameFile) {
-        QString urlFile = "../" + nameFile + ".tmp";
+        QString urlFile = "../smarthome/" + nameFile;
         QFile file(urlFile);
         if (!file.open(QFile::ReadOnly | QFile::Text)) return "";
         QTextStream in(&file);

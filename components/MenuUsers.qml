@@ -3,7 +3,7 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Dialogs 1.2
 import FileIO 1.0
-import "main.js" as Js
+import "../main.js" as Js
 
 Item {
     id: menuUsers
@@ -12,6 +12,9 @@ Item {
     signal clicked
     property bool displayMenuChangeRoom: false
     property bool displayMenuControl
+    FileIO{
+        id:file
+    }
     Rectangle {
         id: menuControlUsers
         visible: displayMenuControl
@@ -25,16 +28,6 @@ Item {
         color: "#7accc8"
         opacity: 0.7
         radius: 10
-//        gradient: Gradient {
-//            GradientStop {
-//                position: 0.0
-//                color: "#8dbffc"
-//            }
-//            GradientStop {
-//                position: 1.0
-//                color: "#5797df"
-//            }
-//        }
         Rectangle {
             id: closeMenuControl
             anchors {
@@ -50,7 +43,7 @@ Item {
             color: "transparent"
             Image {
                 id: iconCloseControl
-                source: "icon/closebutton.png"
+                source: "../icon/closebutton.png"
                 sourceSize.height: 25
                 sourceSize.width: 25
             }
@@ -72,16 +65,6 @@ Item {
         width: 120
         z: 10
         radius: 10
-//        gradient: Gradient {
-//            GradientStop {
-//                position: 0.0
-//                color: "#5797df"
-//            }
-//            GradientStop {
-//                position: 1.0
-//                color: "#8dbffc"
-//            }
-//        }
         color: "#7accc8"
         opacity: 0.7
         Rectangle {
@@ -99,7 +82,7 @@ Item {
             radius:100
             Image {
                 id: iconCloseRoom
-                source: "icon/closebutton.png"
+                source: "../icon/closebutton.png"
                 sourceSize.height: 25
                 sourceSize.width: 25
             }
@@ -131,7 +114,7 @@ Item {
         color: "transparent"
         Image {
             id: iconChooseRoom
-            source: "icon/change.png"
+            source: "../icon/change.png"
             sourceSize.width: 50
             sourceSize.height: 50
         }
@@ -140,7 +123,7 @@ Item {
             onClicked: {
                 displayMenuChangeRoom = true;
                 bShowMenuChangeRoom.visible = false;
-                Js.createRoomListUser(columnUsers,file.numberLine("temp"), false);
+                Js.createRoomList(columnUsers, false);
             }
         }
     }

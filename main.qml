@@ -4,7 +4,7 @@ import QtQuick.Controls 2.0
 import QtQuick.VirtualKeyboard 2.1
 import FileIO 1.0
 import QtQuick.Dialogs 1.0
-import "."
+import "components"
 import "main.js" as Js
 Window {
     id: root
@@ -15,7 +15,6 @@ Window {
     color: "blue"
     property bool toggleDisplay: false
     property bool hideDisplay: true
-    property string fileURLMain
     property variant admin
     property bool maDisplayMenuControl: false
     property int opacityLockScreenFrom
@@ -25,74 +24,54 @@ Window {
         hoverEnabled: true
         onReleased: {
            textTimer.running = true
-            console.log("main.qml -> nhả phím của mouse")
+//            console.log("main.qml -> nhả phím của mouse")
         }
         onExited: {
             textTimer.running = true
-            console.log("main.qml - > rời khỏi khu vực")
+//            console.log("main.qml - > rời khỏi khu vực")
         }
         onPositionChanged: {
 //            textTimer.running = true
-            console.log("main.qml -> mouse đang di chuyển")
+//            console.log("main.qml -> mouse đang di chuyển")
         }
         onPressed: {
             textTimer.running = false
-            console.log("main.qml -> nhấp phím của mouse")
+//            console.log("main.qml -> nhấp phím của mouse")
         }
     }
     Timer{
         id: textTimer
         interval: 150000
         onTriggered: {
-            maLockScreen.visible = true
+            mainLockScreen.visible = true
             opacityLockScreenFrom = 0
             opacityLockScreenTo = 1
             lockScreenAnimation.running = true
         }
     }
-
-    FontLoader {
-        id: robotoBold
-        name: "roboto bold"
-        source: "Font/Roboto-Bold.ttf"
-    }
-    FontLoader {
-        id: robotoLight
-        name: "roboto light"
-        source: "Font/Roboto-Light.ttf"
-    }
-    FontLoader {
-        id: robotoRegular
-        name: "roboto regular"
-        source: "Font/Roboto-Regular.ttf"
+    FileIO{
+        id:file
     }
     Background {
-        id: maBackground
+        id: mainBackground
         anchors.fill: parent
-        tSmartHomeVisiable: true
-    }
-    FileIO {
-        id: file
-    }
-    FormLogin {
-        id: maFormLogin
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 50
-        visible: true
+        isLoginScreen: true
     }
     Room {
-        imageURL: fileURLMain
+        id: mainRoom
+    }
+    FormLogin {
+        id: mainFormLogin
     }
     ListView {
         id: listPoint
     }
-    MenuAdminTTB {
-        id: maMenuAdminTTB
+    MenuAdmin{
+        id: mainMenuAdmin
         visible: false
     }
     MenuUsers {
-        id: maMenuUsers
+        id: mainMenuUsers
         visible: false
         displayMenuControl: maDisplayMenuControl
     }
@@ -101,16 +80,16 @@ Window {
         visible: false
     }
     ButtonControl{
-        id: maButtonControl
+        id: mainButtonControl
         visible: maDisplayMenuControl
     }
     LockScreen{
-        id:maLockScreen
+        id:mainLockScreen
         visible: false
         opacity: 0
         z: 9999
         onDoubleClicked: {
-            maLockScreen.opacity = 1
+            mainLockScreen.opacity = 1
             opacityLockScreenFrom = 1
             opacityLockScreenTo = 0
             lockScreenAnimation.running = true
@@ -118,7 +97,7 @@ Window {
         }
         OpacityAnimator {
             id: lockScreenAnimation
-            target: maLockScreen;
+            target: mainLockScreen;
             from: opacityLockScreenFrom;
             to: opacityLockScreenTo;
             duration: 2000
@@ -127,8 +106,8 @@ Window {
             id: lockScreenTimer
             interval: 2000
             onTriggered: {
-                maLockScreen.visible = false;
-                maLockScreen.opacity = 1;
+                mainLockScreen.visible = false;
+                mainLockScreen.opacity = 1;
             }
         }
     }
