@@ -28,7 +28,7 @@ Rectangle {
         target: clickArea
         from:1
         to: 0
-        duration: 30000
+        duration: 3000
         running: hoverItem ? true : false
         loops: Animation.Infinite
     }

@@ -23,7 +23,7 @@ function checkLogin(id, password) {
     }
 }
 function pointClicked() {
-    maDisplayMenuControl = !maDisplayMenuControl;
+    mainDisplayMenuControl = !mainDisplayMenuControl;
 
 }
 function createPoint(name, isAdmin) {
@@ -46,7 +46,7 @@ function createPoint(name, isAdmin) {
                 let obj = comp.createObject(listPoint, {
                                                 "x": Number(jsonObj[i].Room.pointX[j]),
                                                 "y": Number(jsonObj[i].Room.pointY[j]),
-                                                "opacity": admin ? 1 : 1,
+                                                "opacity": isAdmin ? 1 : 1,
                                                 "code": Number(jsonObj[i].Room.code[j]),
                                                 "hoverItem": isAdmin ? false : true
                                             })
@@ -92,16 +92,14 @@ function clearAllItems(id, name) {
     }
     if(id === column){
         jsonObj.splice(0,jsonObj.length)
-        console.log("column")
     }
     if(id === row){
-        console.log("row")
         for(let j = 0; j < jsonObj.length; j++){
             if(jsonObj[j].Room.name === name){
                 jsonObj[j].Room.pointX.splice(0,jsonObj[j].Room.pointX.length)
                 jsonObj[j].Room.pointY.splice(0,jsonObj[j].Room.pointY.length)
                 jsonObj[j].Room.code.splice(0,jsonObj[j].Room.code.length)
-                jsonObj[j].Room.nameDevice.splice(0,jsonObj[j].Room.Device.length)
+                jsonObj[j].Room.nameDevice.splice(0,jsonObj[j].Room.nameDevice.length)
             }
         }
     }
@@ -251,7 +249,7 @@ function resets(){
 }
 function dislayButton(codeNumber){
     console.log(codeNumber)
-    if(codeNumber === 1 && admin === false){
+    if(codeNumber === 1){
         mainButtonControl.displayBOnOff = true
         mainButtonControl.displayBSpeed = true
         mainButtonControl.displayBTemperature = false
@@ -259,7 +257,7 @@ function dislayButton(codeNumber){
         mainButtonControl.onOffTemperature = false
         return
     }
-    if(codeNumber === 0 && admin === false) {
+    if(codeNumber === 0) {
         mainButtonControl.displayBOnOff = true
         mainButtonControl.displayBSpeed = false
         mainButtonControl.displayBTemperature = false
@@ -268,7 +266,7 @@ function dislayButton(codeNumber){
         mainButtonControl.onOffTemperature = false
         return
     }
-    if(codeNumber === 3 && admin === false){
+    if(codeNumber === 3){
         mainButtonControl.displayBOnOff = true
         mainButtonControl.displayBSpeed = false
         mainButtonControl.displayBTemperature = true
@@ -278,7 +276,7 @@ function dislayButton(codeNumber){
         mainButtonControl.onOffTemperature = false
         return
     }
-    if(codeNumber === 2 && admin === false){
+    if(codeNumber === 2){
         mainButtonControl.displayBOnOff = true
         mainButtonControl.displayBSpeed = false
         mainButtonControl.displayBTemperature = false

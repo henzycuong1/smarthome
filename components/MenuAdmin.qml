@@ -37,6 +37,10 @@ Item {
         }
         color: "black"
         opacity: 0.7
+        Behavior on anchors.topMargin{
+            NumberAnimation{ duration: 500}
+        }
+
         Row {
             id: row
             spacing: 10
@@ -149,6 +153,12 @@ Item {
         width: 100
         color: "black"
         opacity: 0.7
+        Behavior on anchors.topMargin {
+            NumberAnimation { duration: 500 }
+        }
+        Behavior on anchors.leftMargin{
+            NumberAnimation { duration: 500 }
+        }
         Column {
             id: column
             spacing: 10
@@ -321,6 +331,10 @@ Item {
                         currentRoom = inputRoomName.text
                         Js.createNewRoom(inputRoomName.text, fileDialog.fileUrl)
                         Js.createRoomList(column, true)
+                        Js.createPoint(inputRoomName.text,true)
+                        for(let i = 2; i < row.children.length; i++){
+                            row.children[i].destroy();
+                        }
                     }
                 }
             }

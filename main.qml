@@ -15,8 +15,7 @@ Window {
     color: "blue"
     property bool toggleDisplay: false
     property bool hideDisplay: true
-    property variant admin
-    property bool maDisplayMenuControl: false
+    property bool mainDisplayMenuControl: false
     property int opacityLockScreenFrom
     property int opacityLockScreenTo
     MouseArea{
@@ -73,7 +72,7 @@ Window {
     MenuUsers {
         id: mainMenuUsers
         visible: false
-        displayMenuControl: maDisplayMenuControl
+        displayMenuControl: mainDisplayMenuControl
     }
     MessageBox {
         id: messageBox
@@ -81,7 +80,7 @@ Window {
     }
     ButtonControl{
         id: mainButtonControl
-        visible: maDisplayMenuControl
+        visible: mainDisplayMenuControl
     }
     LockScreen{
         id:mainLockScreen
