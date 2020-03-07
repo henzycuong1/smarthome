@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Dialogs 1.0
+import QtQuick.Layouts 1.4
 import FileIO 1.0
 import "../main.js" as Js
 
@@ -14,6 +15,7 @@ Item {
     property string currentRoom
     property bool pressed: false
     property bool dialogPressed: false
+    property bool clickedMenu: false
     FontLoader {
         id: robotoLight
         name: "roboto light"
@@ -341,56 +343,263 @@ Item {
         }
     }
     Rectangle{
-        id: restart
-        width: 90
-        height: 35
-        color: "transparent"
-        border.color: "black"
-        border.width: 1
-        radius: 10
-        anchors {
-            bottom: parent.bottom
-            bottomMargin: 25
+        width: 50
+        height: 50
+        color: "black"
+        radius: 100
+        anchors{
             right: parent.right
-            rightMargin: 25
+            bottom: parent.bottom
+            rightMargin: 50
+            bottomMargin: 50
         }
-
-        Text {
-            text: "Hoàn thành"
+        Image {
+            source: "../icon/arrow.png"
             anchors.centerIn: parent
-            font.family: robotoLight.name
+            sourceSize.width: 30
+            sourceSize.height: 30
+            rotation: clickedMenu ? -90 : 90
+            Behavior on rotation {
+                NumberAnimation{
+                    duration: 500
+                }
+            }
         }
         MouseArea{
             anchors.fill: parent
-            onClicked:{
-                file.restart();
+            onClicked: {
+                clickedMenu = !clickedMenu
+            }
+        }
+        ColumnLayout{
+            visible: clickedMenu
+            anchors{
+                bottom: parent.top
+                bottomMargin: 10
+                horizontalCenter: parent.horizontalCenter
+            }
+            spacing: clickedMenu ? 10 : -35
+            Behavior on spacing{
+                NumberAnimation { duration: 500 }
+            }
+            Rectangle{
+                id: resets
+                width: 40
+                height: 40
+                color: "transparent"
+                border.color: "black"
+                border.width: 1
+                radius: 100
+                Text {
+                    text: "Làm mới"
+                    anchors{
+                        right: parent.left
+                        rightMargin: 10
+                        verticalCenter: parent.verticalCenter
+                    }
+
+                    font.family: robotoLight.name
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:{
+                        Js.resets()
+                    }
+                }
+            }
+            Rectangle{
+                id: restart
+                width: 40
+                height: 40
+                color: "transparent"
+                border.color: "black"
+                border.width: 1
+                radius: 100
+                Text {
+                    text: "Hoàn thành"
+                    anchors{
+                        right: parent.left
+                        rightMargin: 10
+                        verticalCenter: parent.verticalCenter
+                    }
+
+                    font.family: robotoLight.name
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:{
+                        file.restart();
+                    }
+                }
+            }
+            Rectangle{
+                width: 40
+                height: 40
+                border.color: "black"
+                radius: 100
+                color: "transparent"
+                border.width: 1
+                Text {
+                    text: "Đổi mật khẩu admin"
+                    anchors{
+                        right: parent.left
+                        rightMargin: 10
+                        verticalCenter: parent.verticalCenter
+                    }
+
+                    font.family: robotoLight.name
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:{
+                        menuChangePassword.visible = !menuChangePassword.visible
+                        clickedMenu = false
+                    }
+                }
             }
         }
     }
     Rectangle{
-        id: resets
-        width: 80
-        height: 35
-        color: "transparent"
+        id: menuChangePassword
+        width: 400
+        height: 250
         border.color: "black"
+        color: "white"
         border.width: 1
-        radius: 10
-        anchors {
-            bottom: parent.bottom
-            bottomMargin: 25
-            right: parent.right
-            rightMargin: 125
+        visible: false
+        anchors.centerIn: parent
+        Rectangle{
+            id: titleMenuChangePassword
+            anchors{
+                top:parent.top
+                right:parent.right
+                left: parent.left
+            }
+            height: 50
+            color: "black"
+            Text{
+                text: "Đổi mật khẩu"
+                anchors.centerIn: parent
+                color: "white"
+                font.family: robotoLight.name
+            }
+            Image {
+                source: "../icon/closebutton.png"
+                sourceSize.width: 20
+                sourceSize.height: 20
+                anchors{
+                    right: parent.right
+                    rightMargin: 10
+                    verticalCenter: parent.verticalCenter
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:{
+                        menuChangePassword.visible = false
+                    }
+                }
+            }
         }
+        Rectangle{
+            anchors{
+                bottom: parent.bottom
+                right: parent.right
+                left: parent.left
+                top: titleMenuChangePassword.bottom
+            }
+            TextField{
+                id: oldPassword
+                echoMode: TextInput.Password
+                anchors{
+                    left: parent.left
+                    right: parent.right
+                    leftMargin: 25
+                    rightMargin: 25
+                    top: parent.top
+                    topMargin: 25
+                }
+                placeholderText: "Nhập mật khẩu hiện tại"
+            }
+            TextField{
+                id: newPassword
+                echoMode: TextInput.Password
+                anchors{
+                    left: parent.left
+                    right: parent.right
+                    leftMargin: 25
+                    rightMargin: 25
+                    top: parent.top
+                    topMargin: 75
+                }
+                placeholderText: "Nhập mật khẩu mới"
+            }
+            TextField{
+                id: checkNewPassword
+                echoMode: TextInput.Password
+                anchors{
+                    left: parent.left
+                    right: parent.right
+                    leftMargin: 25
+                    rightMargin: 25
+                    top: parent.top
+                    topMargin: 125
+                }
+                placeholderText: "Nhập lại mật khẩu mới"
+            }
+            Rectangle{
+                width: 50
+                height: 25
+                color: "black"
+                radius: 5
+                anchors{
+                    right: parent.horizontalCenter
+                    rightMargin: 5
+                    bottom: parent.bottom
+                    bottomMargin: 5
+                }
 
-        Text {
-            text: "Làm mới"
-            anchors.centerIn: parent
-            font.family: robotoLight.name
-        }
-        MouseArea{
-            anchors.fill: parent
-            onClicked:{
-                Js.resets()
+                Text {
+                    text: "Xác nhận"
+                    color: "white"
+                    anchors.centerIn: parent
+                    font.family: robotoLight.name
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:{
+                        Js.changePassword(oldPassword.text,newPassword.text,checkNewPassword.text)
+                        menuChangePassword.visible = false
+                        Js.showMessage("Xác nhận", "Đổi mật khẩu thành công")
+                    }
+                }
+            }
+            Rectangle{
+                width: 50
+                height: 25
+                color: "black"
+                radius: 5
+                anchors{
+                    left: parent.horizontalCenter
+                    leftMargin: 5
+                    bottom: parent.bottom
+                    bottomMargin: 5
+                }
+
+                Text {
+                    text: "Hủy bỏ"
+                    color: "white"
+                    anchors.centerIn: parent
+                    font.family: robotoLight.name
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:{
+                        menuChangePassword.visible = false
+                        oldPassword.text = ""
+                        newPassword.text = ""
+                        checkNewPassword.text = ""
+                    }
+                }
             }
         }
     }

@@ -1,5 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import Qt.labs.settings 1.0
+import FileIO 1.0
 import "../main.js" as Js
 
 Rectangle {
@@ -14,6 +16,15 @@ Rectangle {
         bottomMargin: 25
     }
     signal clicked
+    property bool isChecked: setting.checked
+    Settings{
+        id: setting
+        property alias checked: checkGhiNhoDangNhap.checked
+    }
+    FileIO{
+        id:file
+    }
+
     FontLoader {
         id: robotoBold
         name: "roboto bold"
@@ -37,7 +48,9 @@ Rectangle {
         font.family: robotoBold.name
         font.pixelSize: 24
     }
-
+    Settings{
+        id: storeChecked
+    }
     Rectangle {
         id: line
         anchors{
@@ -128,6 +141,7 @@ Rectangle {
 
     CheckBox {
         id: checkGhiNhoDangNhap
+        checked: false
         anchors{
             top: inputPassword.bottom
             left: parent.left
@@ -136,21 +150,29 @@ Rectangle {
         }
         width: 42
         height: 37
-        font.family: robotoLight.name
         Text {
-            id: tGhiNhoDangNhap
+            font.family: robotoLight.name
             anchors{
                 left: parent.right
                 verticalCenter: parent.verticalCenter
                 leftMargin: 10
             }
 
-            text: "Ghi nhớ đăng nhập"
+            text: "Đã hoàn thành thiết lập"
             color: "gray"
         }
         MouseArea {
-            id: mGhiNhoDangNhap
             anchors.fill: parent
+            onClicked: {
+                if(JSON.parse(file.readFile("data.json")).length !== 0)
+                {
+                    checkGhiNhoDangNhap.checked = !checkGhiNhoDangNhap.checked
+                }
+                else
+                {
+                    Js.showMessage("Lỗi hệ thống", "Vui lòng thêm phòng !!")
+                }
+            }
         }
     }
 }

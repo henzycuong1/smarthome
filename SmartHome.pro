@@ -3,6 +3,7 @@ QT += widgets
 CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
+        fileIO.cpp \
         main.cpp
 RESOURCES += qml.qrc
 

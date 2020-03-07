@@ -8,17 +8,24 @@ function showMessage(title, content){
     return
 }
 function checkLogin(id, password) {
-    if (id === "a" && password === "a") {
+    let dataAccount = JSON.parse(file.readFile("account.json"))
+    let data = JSON.parse(file.readFile("data.json"))
+    if (id === dataAccount[0].userName && password === dataAccount[0].userPassword) {
         mainFormLogin.visible = false
         mainMenuAdmin.visible = true
-        mainBackground.isLoginScreen = false
+        mainBackground.visible = false
+        mainRoom.visible = true
+        mainRoom.imageURL = "../icon/Background.png"
     } else if (specialCharacters.test(id) || specialCharacters.test(password)) {
         showMessage("Lỗi đăng nhập", "Tài khoản hoặc Mật khẩu không thể chứa ký tự đặc biệt hoặc dấu cách")
     } else if (id === "" || password === "") {
         showMessage("Lỗi đăng nhập", "Tài khoản hoặc mật khẩu không được để trống")
+    } else if(data.length === 0){
+        showMessage("Lỗi hệ thống","Vui lòng đăng nhập vào tài khoản admin thêm dữ liệu")
     } else {
         mainFormLogin.visible = false
         mainMenuUsers.visible = true
+        trackingRoom = 0
         choseRoom(0, false)
     }
 }
@@ -80,7 +87,8 @@ function createRoomList(id, isAdmin) {
                                        "fileURL": jsonObj[i].Room.imageURL
                                     })
        obj.clicked.connect(function () {
-       choseRoom(i,isAdmin ? true : false)})
+            trackingRoom = i
+            choseRoom(i,isAdmin ? true : false)})
     }
 }
 function clearAllItems(id, name) {
@@ -113,7 +121,6 @@ function choseRoom(number,isAdmin) {
     createPoint(jsonObj[number].Room.name, isAdmin ? true : false)
     isAdmin ? currentRoom = jsonObj[number].Room.name : undefined
     isAdmin ? createDeviceList() : undefined
-    console.log("Đã chọn phòng :" + currentRoom)
 }
 
 function insertImage() {
@@ -247,41 +254,26 @@ function resets(){
     createDeviceList()
     createRoomList(column,true)
 }
-function dislayButton(codeNumber){
-    console.log(codeNumber)
-    if(codeNumber === 1){
-        mainButtonControl.displayBOnOff = true
-        mainButtonControl.displayBSpeed = true
-        mainButtonControl.displayBTemperature = false
-        mainButtonControl.displayBVolume = false
-        mainButtonControl.onOffTemperature = false
+function changePassword(oldPassword, newPassword, checkNewPassword){
+    let data = JSON.parse(file.readFile("account.json"))
+    if(oldPassword !== data[0].userPassword){
+        showMessage("Lỗi tài khoản", "Mật khẩu hiện tại không đúng")
         return
     }
-    if(codeNumber === 0) {
-        mainButtonControl.displayBOnOff = true
-        mainButtonControl.displayBSpeed = false
-        mainButtonControl.displayBTemperature = false
-        mainButtonControl.displayBVolume = false
-        mainButtonControl.onOffVolume = false
-        mainButtonControl.onOffTemperature = false
+    if(checkNewPassword !== newPassword){
+        showMessage("Lỗi tài khoản", "Mật khẩu nhập lại không đúng")
         return
     }
-    if(codeNumber === 3){
-        mainButtonControl.displayBOnOff = true
-        mainButtonControl.displayBSpeed = false
-        mainButtonControl.displayBTemperature = true
-        mainButtonControl.displayBVolume = false
-        mainButtonControl.onOffVolume = false
-        mainButtonControl.onOffSpeed = false
-        mainButtonControl.onOffTemperature = false
+    if(specialCharacters.test(newPassword)){
+        showMessage("Lỗi tài khoản", "Mật khẩu không thể chứa ký tự đặc biệt hoặc dấu cách")
         return
     }
-    if(codeNumber === 2){
-        mainButtonControl.displayBOnOff = true
-        mainButtonControl.displayBSpeed = false
-        mainButtonControl.displayBTemperature = false
-        mainButtonControl.displayBVolume = true
-        mainButtonControl.onOffTemperature = false
-        return
-    }
+    data[0].userPassword = checkNewPassword
+    file.writeFile("account.json",JSON.stringify(data))
+}
+function signOut(){
+    mainRoom.visible = false
+    mainFormLogin.visible = true
+    mainMenuUsers.visible = false
+    mainBackground.visible = true
 }

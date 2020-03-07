@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     app.setOrganizationName("fileDialog");
     app.setOrganizationDomain("fileDialog");
+    app.installEventFilter(new FileIO());
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
@@ -19,9 +20,10 @@ int main(int argc, char *argv[])
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
-
     engine.load(url);
-    qDebug() << "this is main, thread id's " << app.thread() -> currentThread();
+//    QQuickItem *item = engine.rootObjects().at(0)->findChild<QQuickItem*>("LockScreen123");
+//    if(item)
+//        item->setProperty("visible",true);
     return app.exec();
 }
 

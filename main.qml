@@ -4,6 +4,7 @@ import QtQuick.Controls 2.0
 import QtQuick.VirtualKeyboard 2.1
 import FileIO 1.0
 import QtQuick.Dialogs 1.0
+import QtQuick.Controls.Styles 1.4
 import "components"
 import "main.js" as Js
 Window {
@@ -18,24 +19,48 @@ Window {
     property bool mainDisplayMenuControl: false
     property int opacityLockScreenFrom
     property int opacityLockScreenTo
+    property bool tracking: false
+    property int startX
+    property int startY
+    property int trackingRoom:0
+    Component.onCompleted: {
+        if(mainFormLogin.isChecked){
+            Js.checkLogin("asd","asd")
+        }
+    }
     MouseArea{
         anchors.fill: parent
         hoverEnabled: true
         onReleased: {
            textTimer.running = true
-//            console.log("main.qml -> nhả phím của mouse")
+           tracking = false
         }
         onExited: {
             textTimer.running = true
-//            console.log("main.qml - > rời khỏi khu vực")
         }
         onPositionChanged: {
-//            textTimer.running = true
-//            console.log("main.qml -> mouse đang di chuyển")
+            if(!tracking) return
+            if((mouse.x - startX) > 200 && trackingRoom > 0 && mainFormLogin.visible === false){
+                trackingRoom--
+                Js.choseRoom(trackingRoom,false)
+                tracking = false
+            }
+            if((mouse.x - startX) < -200 && trackingRoom < JSON.parse(file.readFile("data.json")).length -1 && mainFormLogin.visible === false){
+                trackingRoom++
+                Js.choseRoom(trackingRoom,false)
+                tracking = false
+            }
+            if((mouse.y - startY) > 300 && mainFormLogin.visible === false ){
+                mainLockScreen.visible = true
+                mainLockScreen.opacity = 1
+            }
         }
         onPressed: {
             textTimer.running = false
 //            console.log("main.qml -> nhấp phím của mouse")
+            tracking = true
+            startX = mouse.x
+            startY = mouse.y
         }
     }
     Timer{
@@ -43,9 +68,7 @@ Window {
         interval: 150000
         onTriggered: {
             mainLockScreen.visible = true
-            opacityLockScreenFrom = 0
-            opacityLockScreenTo = 1
-            lockScreenAnimation.running = true
+            mainLockScreen.opacity = 1
         }
     }
     FileIO{
@@ -78,35 +101,23 @@ Window {
         id: messageBox
         visible: false
     }
-    ButtonControl{
-        id: mainButtonControl
-        visible: mainDisplayMenuControl
-    }
     LockScreen{
         id:mainLockScreen
         visible: false
         opacity: 0
         z: 9999
         onDoubleClicked: {
-            mainLockScreen.opacity = 1
-            opacityLockScreenFrom = 1
-            opacityLockScreenTo = 0
-            lockScreenAnimation.running = true
+            this.opacity = 0
             lockScreenTimer.running = true
         }
-        OpacityAnimator {
-            id: lockScreenAnimation
-            target: mainLockScreen;
-            from: opacityLockScreenFrom;
-            to: opacityLockScreenTo;
-            duration: 2000
-        }
+       Behavior on opacity{
+           NumberAnimation{duration: 2000}
+       }
         Timer{
             id: lockScreenTimer
             interval: 2000
             onTriggered: {
                 mainLockScreen.visible = false;
-                mainLockScreen.opacity = 1;
             }
         }
     }

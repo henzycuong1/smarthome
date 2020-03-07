@@ -26,7 +26,6 @@
         <file>icon/water.png</file>
         <file>icon/Background.bmp</file>
         <file>components/Background.qml</file>
-        <file>components/ButtonControl.qml</file>
         <file>components/FormLogin.qml</file>
         <file>components/ItemComponents.qml</file>
         <file>components/LockScreen.qml</file>
@@ -35,5 +34,8 @@
         <file>components/MessageBox.qml</file>
         <file>components/Room.qml</file>
         <file>components/NewDevice.qml</file>
+        <file>icon/center.png</file>
+        <file>icon/arrow.png</file>
+        <file>components/ItemLockScreen.qml</file>
     </qresource>
 </RCC>

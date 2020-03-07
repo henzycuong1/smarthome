@@ -8,10 +8,11 @@ Image {
     id: imageBackground
     anchors.fill: parent
     property string imageURL
+    property bool pressed: false
+    property int startX
     source: imageURL
     z: -1
     FileIO {
         id: file
     }
-
 }

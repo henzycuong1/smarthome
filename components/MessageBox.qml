@@ -51,7 +51,13 @@ Rectangle {
             id: tTextMessageBox
             text: newText
             wrapMode: Text.Wrap
-            anchors.centerIn: parent
+            anchors{
+                top: parent.top
+                left: parent.left
+                leftMargin: 5
+                topMargin: 5
+            }
+
             color: "black"
         }
         Rectangle{
