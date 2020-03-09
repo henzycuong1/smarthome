@@ -161,6 +161,7 @@ Item {
             bottomMargin: 10
         }
         Image {
+            id: iconArrow
             source: "../icon/arrow.png"
             sourceSize.width: 30
             sourceSize.height: 30
@@ -174,10 +175,22 @@ Item {
             anchors.fill: parent
             onClicked:{
                childMenuUser = !childMenuUser
+                columnMenu.visible = true
+                if(iconArrow.rotation === -90){
+                    timerMenu.running = true
+                }
             }
         }
+        Timer{
+            id: timerMenu
+            interval: 500
+            running: false
+            onTriggered: columnMenu.visible = false
+        }
+
         ColumnLayout{
-           visible: childMenuUser
+           id: columnMenu
+           visible: false
            spacing: childMenuUser ? 10 : -35
            anchors{
                horizontalCenter: parent.horizontalCenter

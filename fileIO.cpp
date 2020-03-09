@@ -5,7 +5,8 @@
 #include <string>
 FileIO::FileIO(QObject *parent) : QObject(parent){
     m_timer.setInterval(5000);
-    m_timer.start();
+    connect(&m_timer,&QTimer::timeout,this,&FileIO::appNowInactive);
+    connect(&m_timer,&QTimer::timeout, &m_timer, &QTimer::stop);
 }
 void FileIO::writeFile(const QString &nameFile,const QString &text) {
     QString urlFile = "../smarthome/" + nameFile;
@@ -29,10 +30,25 @@ void FileIO::restart(){
     QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
 }
 bool FileIO::eventFilter(QObject *obj, QEvent *event){
-    if (event->type() == QEvent::GrabMouse)
-           m_timer.start();
+    if(event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease){
+        setAppIsActive(true);
+        m_timer.start();
+    }
+    // standard event processing
     return QObject::eventFilter(obj, event);
 }
-void FileIO::goLockScreen(){
-    qDebug("test");
+void FileIO::setAppIsActive(bool appIsActive)
+{
+    if (m_appIsActive == appIsActive)
+        return;
+
+    m_appIsActive = appIsActive;
+    emit appIsActiveChanged(m_appIsActive);
+    emit m_appIsActive ? signalAppIsActive() : signalAppIsInactive();
+}
+
+void FileIO::appNowInactive()
+{
+    setAppIsActive(false);
+    qDebug() << "App is idle";
 }

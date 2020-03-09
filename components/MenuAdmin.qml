@@ -359,6 +359,7 @@ Item {
             bottomMargin: 50
         }
         Image {
+            id: iconArrow
             source: "../icon/arrow.png"
             anchors.centerIn: parent
             sourceSize.width: 30
@@ -374,10 +375,22 @@ Item {
             anchors.fill: parent
             onClicked: {
                 clickedMenu = !clickedMenu
+                columMenu.visible = true
+                if(iconArrow.rotation === -90){
+                    timerIconArrow.running = true
+                }
             }
         }
+        Timer{
+            id: timerIconArrow
+            interval: 500
+            running: false
+            onTriggered: columMenu.visible = false
+        }
+
         ColumnLayout{
-            visible: clickedMenu
+            id: columMenu
+            visible: false
             anchors{
                 bottom: parent.top
                 bottomMargin: 10

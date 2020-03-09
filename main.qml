@@ -22,7 +22,16 @@ Window {
     property bool tracking: false
     property int startX
     property int startY
-    property int trackingRoom:0
+    property int trackingRoom: 0
+    signal appIsActive()
+    signal appIsInactive()
+    onAppIsActive: {
+        console.log("QML: is now active")
+    }
+    onAppIsInactive: {
+        mainLockScreen.visible = true
+        mainLockScreen.opacity = 1
+    }
     Component.onCompleted: {
         if(mainFormLogin.isChecked){
             Js.checkLogin("asd","asd")
@@ -32,11 +41,7 @@ Window {
         anchors.fill: parent
         hoverEnabled: true
         onReleased: {
-           textTimer.running = true
            tracking = false
-        }
-        onExited: {
-            textTimer.running = true
         }
         onPositionChanged: {
             if(!tracking) return
@@ -56,23 +61,13 @@ Window {
             }
         }
         onPressed: {
-            textTimer.running = false
-//            console.log("main.qml -> nhấp phím của mouse")
             tracking = true
             startX = mouse.x
             startY = mouse.y
         }
     }
-    Timer{
-        id: textTimer
-        interval: 150000
-        onTriggered: {
-            mainLockScreen.visible = true
-            mainLockScreen.opacity = 1
-        }
-    }
     FileIO{
-        id:file
+        id: file
     }
     Background {
         id: mainBackground
