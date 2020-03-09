@@ -117,6 +117,8 @@ function clearAllItems(id, name) {
 
 function choseRoom(number,isAdmin) {
     let jsonObj = JSON.parse(file.readFile("data.json"))
+    mainLockScreen.opacity = 0
+    lockScreenTimer.running = true
     mainRoom.imageURL = jsonObj[number].Room.imageURL
     createPoint(jsonObj[number].Room.name, isAdmin ? true : false)
     isAdmin ? currentRoom = jsonObj[number].Room.name : undefined
@@ -276,4 +278,5 @@ function signOut(){
     mainFormLogin.visible = true
     mainMenuUsers.visible = false
     mainBackground.visible = true
+    createPoint(undefined,false)
 }

@@ -109,12 +109,15 @@ Item {
                 }
             }
         }
-        Column{
-            id: columnUsers
-            spacing: 10
-            topPadding: 50
-            leftPadding: 10
-            rightPadding: 10
+        ScrollView{
+            anchors.fill: parent
+            Column{
+                id: columnUsers
+                spacing: 10
+                topPadding: 50
+                leftPadding: 10
+                rightPadding: 10
+            }
         }
     }
     Rectangle{

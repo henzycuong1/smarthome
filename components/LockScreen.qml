@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.4
+import QtQuick.Layouts 1.0
 import FileIO 1.0
 import "../main.js" as Js
 Rectangle {
@@ -82,23 +82,48 @@ Rectangle {
             leftMargin: 20
             bottomMargin: 10
         }
-        GridLayout{
-            id: layoutRightLockScreen
-            function getColumn () {
-                let data = JSON.parse(file.readFile("data.json"))
-                if(data.length === 1) return 1
-                else if(data.length === 2) return 2
-                else if(data.length > 2) return 3
-                else return 0
+        ScrollView{
+            anchors.fill: parent
+            GridLayout{
+                id: layoutRightLockScreen
+                anchors.fill: parent
+                function getColumn () {
+                    let data = JSON.parse(file.readFile("data.json"))
+                    if(data.length === 1) return 1
+                    else if(data.length === 2) return 2
+                    else if(data.length > 2) return 3
+                    else return 0
+                }
+                function getRow (){
+                    let data = JSON.parse(file.readFile("data.json"))
+                    return parseInt(data.length / 3) + 1
+                }
+                columns: getColumn()
+                rows: getRow()
+                anchors.margins: 10
+                rowSpacing: 5
+                columnSpacing: 10
             }
-            function getRow (){
-                let data = JSON.parse(file.readFile("data.json"))
-                return data.length % 3 + 1
+        }
+    }
+    Component.onCompleted: {
+        let data = JSON.parse(file.readFile("data.json"))
+        let comp = Qt.createComponent("ItemLockScreen.qml")
+        if(comp.status !== Component.Ready){
+            if(comp.status === Component.Error){
+                Js.showMessage("UI SYSTEM ERROR","COMPONENT ERROR: " + comp.errorString())
+                return
             }
-            columns: getColumn()
-            rows: getRow()
-            rowSpacing: 35
-            columnSpacing: 10
+        }
+        for(let i = 0; i < data.length ; i++){
+            let obj = comp.createObject(layoutRightLockScreen,{
+                                            "roomName":data[i].Room.name,
+                                            "roomImage":data[i].Room.imageURL,
+                                            "temperature": 0,
+                                            "humidity":0,
+                                            "code": i,
+                                            "deviceWorking":0
+                                        })
         }
     }
 }

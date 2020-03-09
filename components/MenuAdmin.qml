@@ -42,102 +42,104 @@ Item {
         Behavior on anchors.topMargin{
             NumberAnimation{ duration: 500}
         }
+        ScrollView{
+            anchors.fill: parent
+            Row {
+                id: row
+                spacing: 10
+                topPadding: 7.5
+                bottomPadding: 7.5
+                leftPadding: 10
+                Rectangle {
+                    width: 100
+                    height: 35
+                    x: 50
+                    radius: 10
+                    Text {
+                        id: tAddNewDevice
+                        text: "Thêm thiết bị"
+                        font.family: robotoLight.name
+                        font.pointSize: 9
+                        anchors{
+                            right: parent.right;
+                            rightMargin: 5;
+                            verticalCenter: parent.verticalCenter;
+                        }
+                    }
+                    Image {
+                        id: iconAddNewDevice
+                        source: "../icon/add.png"
+                        sourceSize.width: 15
+                        sourceSize.height: 15
+                        anchors{
+                            left: parent.left
+                            leftMargin: 5
+                            verticalCenter: parent.verticalCenter
+                        }
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onPressed: {
+                            Js.startDrag(mouse)
+                            containerMenuAdmin.pressed = true
+                        }
+                        onPositionChanged: {
+                            containerMenuAdmin.pressed ? Js.continueDrag(mouse) : ""
+                        }
+                        onReleased: {
+                            Js.endDrag(currentRoom)
+                        }
+                        onEntered: {
+                            parent.color = "blue"
+                            tAddNewDevice.color = "white"
+                        }
+                        onExited: {
+                            parent.color = "white"
+                            tAddNewDevice.color = "black"
+                        }
+                    }
+                }
 
-        Row {
-            id: row
-            spacing: 10
-            topPadding: 7.5
-            bottomPadding: 7.5
-            leftPadding: 10
-            Rectangle {
-                width: 100
-                height: 35
-                x: 50
-                radius: 10
-                Text {
-                    id: tAddNewDevice
-                    text: "Thêm thiết bị"
-                    font.family: robotoLight.name
-                    font.pointSize: 9
-                    anchors{
-                        right: parent.right;
-                        rightMargin: 5;
-                        verticalCenter: parent.verticalCenter;
+                Rectangle {
+                    width: 100
+                    height: 35
+                    radius: 10
+                    Text {
+                        id: tDeleteAllDevice
+                        text: "Xóa toàn bộ"
+                        font.family: robotoLight.name
+                        font.pointSize: 9
+                        anchors{
+                            right: parent.right;
+                            rightMargin: 5
+                            verticalCenter: parent.verticalCenter
+                        }
                     }
-                }
-                Image {
-                    id: iconAddNewDevice
-                    source: "../icon/add.png"
-                    sourceSize.width: 15
-                    sourceSize.height: 15
-                    anchors{
-                        left: parent.left
-                        leftMargin: 5
-                        verticalCenter: parent.verticalCenter
+                    Image {
+                        source: "../icon/trash.png"
+                        sourceSize.width: 15
+                        sourceSize.height: 15
+                        anchors{
+                            left: parent.left
+                            leftMargin: 5
+                            verticalCenter: parent.verticalCenter
+                        }
                     }
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onPressed: {
-                        Js.startDrag(mouse)
-                        containerMenuAdmin.pressed = true
-                    }
-                    onPositionChanged: {
-                        containerMenuAdmin.pressed ? Js.continueDrag(mouse) : ""
-                    }
-                    onReleased: {
-                        Js.endDrag(currentRoom)
-                    }
-                    onEntered: {
-                        parent.color = "blue"
-                        tAddNewDevice.color = "white"
-                    }
-                    onExited: {
-                        parent.color = "white"
-                        tAddNewDevice.color = "black"
-                    }
-                }
-            }
-
-            Rectangle {
-                width: 100
-                height: 35
-                radius: 10
-                Text {
-                    id: tDeleteAllDevice
-                    text: "Xóa toàn bộ"
-                    font.family: robotoLight.name
-                    font.pointSize: 9
-                    anchors{
-                        right: parent.right;
-                        rightMargin: 5
-                        verticalCenter: parent.verticalCenter
-                    }
-                }
-                Image {
-                    source: "../icon/trash.png"
-                    sourceSize.width: 15
-                    sourceSize.height: 15
-                    anchors{
-                        left: parent.left
-                        leftMargin: 5
-                        verticalCenter: parent.verticalCenter
-                    }
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: {
-                        Js.clearAllItems(row, currentRoom)
-                    }
-                    onEntered: {
-                        parent.color = "blue"
-                        tDeleteAllDevice.color = "white"
-                    }
-                    onExited: {
-                        parent.color = "white"
-                        tDeleteAllDevice.color = "black"
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
+                            Js.clearAllItems(row, currentRoom)
+                        }
+                        onEntered: {
+                            parent.color = "blue"
+                            tDeleteAllDevice.color = "white"
+                        }
+                        onExited: {
+                            parent.color = "white"
+                            tDeleteAllDevice.color = "black"
+                        }
                     }
                 }
             }
@@ -161,99 +163,102 @@ Item {
         Behavior on anchors.leftMargin{
             NumberAnimation { duration: 500 }
         }
-        Column {
-            id: column
-            spacing: 10
-            topPadding: 20
-            leftPadding: 10
-            rightPadding: 10
-            Rectangle {
-                width: 80
-                height: 70
-                radius: 10
-                Text {
-                    id: tAddRoom
-                    text: "Thêm Phòng"
-                    font.family: robotoLight.name
-                    font.pointSize: 9
-                    anchors{
-                        bottom: parent.bottom;
-                        bottomMargin: 3;
-                        horizontalCenter: parent.horizontalCenter;
+        ScrollView{
+            anchors.fill: parent
+            Column {
+                id: column
+                spacing: 10
+                topPadding: 20
+                leftPadding: 10
+                rightPadding: 10
+                Rectangle {
+                    width: 80
+                    height: 70
+                    radius: 10
+                    Text {
+                        id: tAddRoom
+                        text: "Thêm Phòng"
+                        font.family: robotoLight.name
+                        font.pointSize: 9
+                        anchors{
+                            bottom: parent.bottom;
+                            bottomMargin: 3;
+                            horizontalCenter: parent.horizontalCenter;
+                        }
+                    }
+                    Image {
+                        source: "../icon/addroom.png"
+                        sourceSize.width: 50
+                        sourceSize.height: 45
+                        anchors{
+                            top: parent.top
+                            topMargin: 5
+                            horizontalCenter: parent.horizontalCenter
+                        }
+                    }
+                    MouseArea {
+                        hoverEnabled: true
+                        anchors.fill: parent
+                        onClicked: fileDialog.visible = true
+                        onEntered: {
+                            parent.color = "blue"
+                            tAddRoom.color = "white"
+                        }
+                        onExited: {
+                            parent.color = "white"
+                            tAddRoom.color = "black"
+                        }
+                    }
+                    FileDialog {
+                        id: fileDialog
+                        title: "Chọn phòng"
+                        folder: shortcuts.home
+                        onAccepted: {
+                            containerMenuAdmin.fileURL = fileUrl
+                            Js.insertImage()
+                        }
                     }
                 }
-                Image {
-                    source: "../icon/addroom.png"
-                    sourceSize.width: 50
-                    sourceSize.height: 45
-                    anchors{
-                        top: parent.top
-                        topMargin: 5
-                        horizontalCenter: parent.horizontalCenter
-                    }
-                }
-                MouseArea {
-                    hoverEnabled: true
-                    anchors.fill: parent
-                    onClicked: fileDialog.visible = true
-                    onEntered: {
-                        parent.color = "blue"
-                        tAddRoom.color = "white"
-                    }
-                    onExited: {
-                        parent.color = "white"
-                        tAddRoom.color = "black"
-                    }
-                }
-                FileDialog {
-                    id: fileDialog
-                    title: "Chọn phòng"
-                    folder: shortcuts.home
-                    onAccepted: {
-                        containerMenuAdmin.fileURL = fileUrl
-                        Js.insertImage()
-                    }
-                }
-            }
-            Rectangle {
-                width: 80
-                height: 70
-                radius: 10
-                Text {
-                    id: tDeleteAllRoom
-                    text: "Xóa toàn bộ"
-                    font.family: robotoLight.name
-                    font.pointSize: 9
-                    anchors{
-                        bottom: parent.bottom;
-                        bottomMargin: 3;
-                        horizontalCenter: parent.horizontalCenter
-                    }
+                Rectangle {
+                    width: 80
+                    height: 70
+                    radius: 10
+                    Text {
+                        id: tDeleteAllRoom
+                        text: "Xóa toàn bộ"
+                        font.family: robotoLight.name
+                        font.pointSize: 9
+                        anchors{
+                            bottom: parent.bottom;
+                            bottomMargin: 3;
+                            horizontalCenter: parent.horizontalCenter
+                        }
 
-                }
-                Image {
-                    source: "../icon/trash.png"
-                    sourceSize.width: 40
-                    sourceSize.height: 40
-                    anchors{
-                        top: parent.top
-                        topMargin: 5
-                        horizontalCenter: parent.horizontalCenter
                     }
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: {
-                        Js.clearAllItems(column, currentRoom)
+                    Image {
+                        source: "../icon/trash.png"
+                        sourceSize.width: 40
+                        sourceSize.height: 40
+                        anchors{
+                            top: parent.top
+                            topMargin: 5
+                            horizontalCenter: parent.horizontalCenter
+                        }
                     }
-                    onEntered: {
-                        parent.color = "blue"
-                        tDeleteAllRoom.color = "white"
-                    }
-                    onExited: {
-                        parent.color = "white"
-                        tDeleteAllRoom.color = "black"
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
+                            Js.clearAllItems(column, currentRoom)
+                        }
+                        onEntered: {
+                            parent.color = "blue"
+                            tDeleteAllRoom.color = "white"
+                        }
+                        onExited: {
+                            parent.color = "white"
+                            tDeleteAllRoom.color = "black"
+                        }
                     }
                 }
             }
