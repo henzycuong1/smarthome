@@ -351,6 +351,7 @@ Item {
         width: 50
         height: 50
         color: "black"
+        border.width: 1
         radius: 100
         anchors{
             right: parent.right
@@ -380,6 +381,13 @@ Item {
                     timerIconArrow.running = true
                 }
             }
+            hoverEnabled: true
+            onEntered: {
+                parent.border.color = "white"
+            }
+            onExited: {
+                 parent.border.color = "transparent"
+            }
         }
         Timer{
             id: timerIconArrow
@@ -405,7 +413,7 @@ Item {
                 width: 40
                 height: 40
                 color: "transparent"
-                border.color: "black"
+                border.color: "transparent"
                 border.width: 1
                 radius: 100
                 Text {
@@ -423,6 +431,19 @@ Item {
                     onClicked:{
                         Js.resets()
                     }
+                    hoverEnabled: true
+                    onEntered: {
+                        parent.border.color = "white"
+                    }
+                    onExited: {
+                         parent.border.color = "transparent"
+                    }
+                }
+                Image {
+                    source: "../icon/refresh.png"
+                    sourceSize.width: 30
+                    sourceSize.height: 30
+                    anchors.centerIn: parent
                 }
             }
             Rectangle{
@@ -430,7 +451,7 @@ Item {
                 width: 40
                 height: 40
                 color: "transparent"
-                border.color: "black"
+                border.color: "transparent"
                 border.width: 1
                 radius: 100
                 Text {
@@ -448,12 +469,25 @@ Item {
                     onClicked:{
                         file.restart();
                     }
+                    hoverEnabled: true
+                    onEntered: {
+                        parent.border.color = "white"
+                    }
+                    onExited: {
+                         parent.border.color = "transparent"
+                    }
+                }
+                Image {
+                    source: "../icon/complete.png"
+                    sourceSize.width: 30
+                    sourceSize.height: 30
+                    anchors.centerIn: parent
                 }
             }
             Rectangle{
                 width: 40
                 height: 40
-                border.color: "black"
+                border.color: "transparent"
                 radius: 100
                 color: "transparent"
                 border.width: 1
@@ -473,6 +507,19 @@ Item {
                         menuChangePassword.visible = !menuChangePassword.visible
                         clickedMenu = false
                     }
+                    hoverEnabled: true
+                    onEntered: {
+                        parent.border.color = "white"
+                    }
+                    onExited: {
+                         parent.border.color = "transparent"
+                    }
+                }
+                Image {
+                    source: "../icon/change-password.png"
+                    sourceSize.width: 30
+                    sourceSize.height: 30
+                    anchors.centerIn: parent
                 }
             }
         }

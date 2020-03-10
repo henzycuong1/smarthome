@@ -13,9 +13,9 @@ function checkLogin(id, password) {
     if (id === dataAccount[0].userName && password === dataAccount[0].userPassword) {
         mainFormLogin.visible = false
         mainMenuAdmin.visible = true
-        mainBackground.visible = false
-        mainRoom.visible = true
-        mainRoom.imageURL = "../icon/Background.png"
+        mainBackground.isLoginScreen = false
+//        mainRoom.visible = true
+//        mainRoom.imageURL = "../icon/Background.png"
         trackingAdmin = true;
     } else if (specialCharacters.test(id) || specialCharacters.test(password)) {
         showMessage("Lỗi đăng nhập", "Tài khoản hoặc Mật khẩu không thể chứa ký tự đặc biệt hoặc dấu cách")
@@ -120,6 +120,7 @@ function clearAllItems(id, name) {
 function choseRoom(number,isAdmin) {
     let jsonObj = JSON.parse(file.readFile("data.json"))
     mainLockScreen.opacity = 0
+    mainRoom.visible = true
     lockScreenTimer.running = true
     mainRoom.imageURL = jsonObj[number].Room.imageURL
     createPoint(jsonObj[number].Room.name, isAdmin ? true : false)

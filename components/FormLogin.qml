@@ -164,7 +164,7 @@ Rectangle {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                if(JSON.parse(file.readFile("data.json")).length !== 0)
+                if(JSON.parse(file.readFile("data.json")).length !== 0 || checkGhiNhoDangNhap.checked === true)
                 {
                     checkGhiNhoDangNhap.checked = !checkGhiNhoDangNhap.checked
                 }

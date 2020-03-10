@@ -151,7 +151,7 @@ Item {
         width: 50
         height: 50
         radius: 100
-        border.color: "black"
+        border.color: "transparent"
         border.width: 1
         color:"transparent"
         anchors{
@@ -173,12 +173,19 @@ Item {
         }
         MouseArea{
             anchors.fill: parent
+            hoverEnabled: true
             onClicked:{
                childMenuUser = !childMenuUser
                 columnMenu.visible = true
                 if(iconArrow.rotation === -90){
                     timerMenu.running = true
                 }
+            }
+            onEntered: {
+                parent.border.color = "white"
+            }
+            onExited: {
+                 parent.border.color = "transparent"
             }
         }
         Timer{
@@ -191,11 +198,11 @@ Item {
         ColumnLayout{
            id: columnMenu
            visible: false
-           spacing: childMenuUser ? 10 : -35
+           spacing: childMenuUser ? 10 : -20
            anchors{
                horizontalCenter: parent.horizontalCenter
                bottom: parent.top
-               bottomMargin: childMenuUser ? 10 : -50
+               bottomMargin: childMenuUser ? 10 : -30
            }
            Behavior on spacing {
                NumberAnimation{ duration: 500}
@@ -209,12 +216,19 @@ Item {
                height: 35
                radius: 100
                color: "transparent"
-               border.color: "black"
+               border.color: "transparent"
                border.width: 1
                MouseArea{
                    anchors.fill: parent
                    onClicked: {
                        Js.signOut()
+                   }
+                   hoverEnabled: true
+                   onEntered: {
+                       parent.border.color = "white"
+                   }
+                   onExited: {
+                        parent.border.color = "transparent"
                    }
                }
                Text {
@@ -225,6 +239,12 @@ Item {
                        rightMargin: 5
                    }
                    font.pixelSize: 14
+               }
+               Image {
+                   source: "../icon/logout.png"
+                   sourceSize.width: 30
+                   sourceSize.height: 30
+                   anchors.centerIn: parent
                }
            }
         }

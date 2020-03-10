@@ -37,5 +37,14 @@
         <file>icon/center.png</file>
         <file>icon/arrow.png</file>
         <file>components/ItemLockScreen.qml</file>
+        <file>icon/air-conditioning.png</file>
+        <file>icon/change-password.png</file>
+        <file>icon/complete.png</file>
+        <file>icon/logout.png</file>
+        <file>icon/refresh.png</file>
+        <file>icon/volume-off.png</file>
+        <file>icon/volume-on.png</file>
+        <file>components/Bell.qml</file>
+        <file>icon/bell.png</file>
     </qresource>
 </RCC>

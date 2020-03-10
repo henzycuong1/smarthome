@@ -20,6 +20,8 @@ Rectangle {
     property bool rightInput: false
     property bool onOff: false
     property int currentTemperutare: 16
+    property bool displayLevelRow: false
+    property bool displayUpDownTemperature: false
     MouseArea {
         anchors.fill: parent
         onClicked: {
@@ -131,8 +133,8 @@ Rectangle {
             visible: code == 1 && hoverItem ? true : false
             radius: 100
             color: "transparent"
-            border.color: "white"
             border.width: 1
+            border.color: "white"
             Layout.topMargin: 8
             Layout.rightMargin: 5
             Layout.alignment: Qt.AlignRight
@@ -145,24 +147,29 @@ Rectangle {
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    levelRow.visible = !levelRow.visible
+                    if(levelRow.visible) timerLevelRow.running = true
+                    levelRow.visible = true
+                    displayLevelRow = !displayLevelRow
                 }
             }
         }
         Rectangle{
-            width: 40
+            width: 50
             height: 25
             radius: 3
-            border.color: "white"
-            border.width: 1
             color:"transparent"
             visible: code == 2 && hoverItem? true : false
             Layout.topMargin: 8
-            Layout.rightMargin: 5
+            Layout.rightMargin: 2
             Layout.alignment: Qt.AlignRight
             Text{
                 id: showVolume
-                anchors.centerIn: parent
+                anchors{
+                    right: parent.right
+                    verticalCenter: parent.verticalCenter
+                    rightMargin: 35
+                }
+
                 color:"white"
                 text: "0%"
             }
@@ -172,28 +179,54 @@ Rectangle {
                     sliderVolume.visible = !sliderVolume.visible
                 }
             }
+            Image {
+                source: sliderVolume.value === 0 ? "../icon/volume-off.png" : "../icon/volume-on.png"
+                sourceSize.width: 20
+                sourceSize.height: 20
+                anchors{
+                    right: parent.right
+                    verticalCenter: parent.verticalCenter
+                    rightMargin: 3
+                }
+            }
         }
         Rectangle{
-            width: 40
+            width: 50
             height: 25
             radius: 3
-            border.color: "white"
-            border.width: 1
             color:"transparent"
             visible: code == 3 && hoverItem ? true : false
             Layout.topMargin: 8
-            Layout.rightMargin: 5
+            Layout.rightMargin: 2
             Layout.alignment: Qt.AlignRight
             Text {
                 id: showTemperature
                 color: "white"
-                anchors.centerIn: parent
+                anchors{
+                    right: parent.right
+                    verticalCenter: parent.verticalCenter
+                    rightMargin: 35
+                }
+
                 text: currentTemperutare + " °C"
             }
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    upDownTemperature.visible = !upDownTemperature.visible
+                    if(upDownTemperature.visible) timerUpDownTemperature.running = true
+                    upDownTemperature.visible = true
+                    displayUpDownTemperature = !displayUpDownTemperature
+
+                }
+            }
+            Image {
+                source: "../icon/air-conditioning.png"
+                sourceSize.width: 20
+                sourceSize.height: 20
+                anchors{
+                    right: parent.right
+                    verticalCenter: parent.verticalCenter
+                    rightMargin: 3
                 }
             }
         }
@@ -201,7 +234,7 @@ Rectangle {
     Rectangle{
         id: levelRow
         visible: false
-        width: this.visible ? 162 : 0
+        width: displayLevelRow ? 162 : 0
         color: Qt.rgba(0,0,0,0.5)
         height: 30
         radius: 5
@@ -210,11 +243,17 @@ Rectangle {
             topMargin: 5
         }
         Behavior on width{
-            NumberAnimation { duration: 500 }
+            NumberAnimation{ duration: 500 }
+        }
+        Timer{
+            interval: 500
+            running: false
+            id: timerLevelRow
+            onTriggered: levelRow.visible = false
         }
 
         Row{
-            spacing: parent.visible ? 3 : -30
+            spacing: displayLevelRow ? 3 : -30
             Behavior on spacing{
                 NumberAnimation{ duration: 500 }
             }
@@ -333,7 +372,7 @@ Rectangle {
     Rectangle{
         id: upDownTemperature
         width: 35
-        height: this.visible ? 100 : 0
+        height: displayUpDownTemperature ? 100 : 0
         visible: false
         color: Qt.rgba(0,0,0,0.5)
         radius: 5
@@ -355,7 +394,7 @@ Rectangle {
             border.width: 1
             anchors{
                 top: parent.top
-                topMargin: parent.visible ? 0 : parent.height/2
+                topMargin: displayUpDownTemperature ? 0 : parent.height/2
             }
             Behavior on anchors.topMargin {
                 NumberAnimation{ duration: 500 }
@@ -382,7 +421,7 @@ Rectangle {
             border.width: 1
             anchors{
                 bottom: parent.bottom
-                bottomMargin: parent.visible ? 0 : parent.height/2
+                bottomMargin: displayUpDownTemperature ? 0 : parent.height/2
             }
             Behavior on anchors.bottomMargin {
                 NumberAnimation { duration: 500 }
@@ -399,6 +438,12 @@ Rectangle {
                     if(currentTemperutare > 16 ) currentTemperutare--
                 }
             }
+        }
+        Timer{
+            interval: 500
+            running: false
+            id: timerUpDownTemperature
+            onTriggered: upDownTemperature.visible = false
         }
     }
 }

@@ -14,11 +14,7 @@ Window {
     height: 480
     title: qsTr("Smart Home")
     color: "blue"
-    property bool toggleDisplay: false
-    property bool hideDisplay: true
     property bool mainDisplayMenuControl: false
-    property int opacityLockScreenFrom
-    property int opacityLockScreenTo
     property bool tracking: false
     property int startX
     property int startY
@@ -62,6 +58,10 @@ Window {
             if((mouse.y - startY) > 300 && mainFormLogin.visible === false ){
                 mainLockScreen.visible = true
                 mainLockScreen.opacity = 1
+            }
+            if((mouse.y - startY) < -300 && mainFormLogin.visible === false ){
+                mainBell.visible = !mainBell.visible
+                tracking = false
             }
         }
         onPressed: {
@@ -116,6 +116,12 @@ Window {
             }
         }
     }
+    Bell{
+        id: mainBell
+        visible: false
+        z: 99999
+    }
+
     InputPanel{
         id: keyboard
         visible: active

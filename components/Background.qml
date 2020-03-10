@@ -8,7 +8,7 @@ Image {
     source: "../icon/Background.bmp"
     sourceSize.width: 800
     sourceSize.height: 480
-    z:-1
+    z:-5
     Image{
         id: logo
         width: 360
