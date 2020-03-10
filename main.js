@@ -16,6 +16,7 @@ function checkLogin(id, password) {
         mainBackground.visible = false
         mainRoom.visible = true
         mainRoom.imageURL = "../icon/Background.png"
+        trackingAdmin = true;
     } else if (specialCharacters.test(id) || specialCharacters.test(password)) {
         showMessage("Lỗi đăng nhập", "Tài khoản hoặc Mật khẩu không thể chứa ký tự đặc biệt hoặc dấu cách")
     } else if (id === "" || password === "") {
@@ -26,6 +27,7 @@ function checkLogin(id, password) {
         mainFormLogin.visible = false
         mainMenuUsers.visible = true
         trackingRoom = 0
+        trackingAdmin = false
         choseRoom(0, false)
     }
 }

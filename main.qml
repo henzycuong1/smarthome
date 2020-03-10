@@ -23,14 +23,18 @@ Window {
     property int startX
     property int startY
     property int trackingRoom: 0
-    signal appIsActive()
+    property bool trackingAdmin: true
+    signal appIsDoubleClick()
     signal appIsInactive()
-    onAppIsActive: {
-        console.log("QML: is now active")
+    onAppIsDoubleClick: {
+        mainLockScreen.opacity = 0
+        lockScreenTimer.running = true
     }
     onAppIsInactive: {
-        mainLockScreen.visible = true
-        mainLockScreen.opacity = 1
+        if(!trackingAdmin){
+            mainLockScreen.visible = true
+            mainLockScreen.opacity = 1
+        }
     }
     Component.onCompleted: {
         if(mainFormLogin.isChecked){
@@ -101,10 +105,6 @@ Window {
         visible: false
         opacity: 0
         z: 9999
-        onDoubleClicked: {
-            this.opacity = 0
-            lockScreenTimer.running = true
-        }
        Behavior on opacity{
            NumberAnimation{duration: 2000}
        }

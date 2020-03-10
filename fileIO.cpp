@@ -4,7 +4,7 @@
 #include <sstream>
 #include <string>
 FileIO::FileIO(QObject *parent) : QObject(parent){
-    m_timer.setInterval(5000);
+    m_timer.setInterval(30000);
     connect(&m_timer,&QTimer::timeout,this,&FileIO::appNowInactive);
     connect(&m_timer,&QTimer::timeout, &m_timer, &QTimer::stop);
 }
@@ -31,24 +31,28 @@ void FileIO::restart(){
 }
 bool FileIO::eventFilter(QObject *obj, QEvent *event){
     if(event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease){
-        setAppIsActive(true);
+//        setAppIsActive(true);
         m_timer.start();
+    }
+    if(event->type() == QEvent::MouseButtonDblClick){
+        emit signalAppIsDoubleClick();
     }
     // standard event processing
     return QObject::eventFilter(obj, event);
 }
-void FileIO::setAppIsActive(bool appIsActive)
-{
-    if (m_appIsActive == appIsActive)
-        return;
+//void FileIO::setAppIsActive(bool appIsActive)
+//{
+//    if (m_appIsActive == appIsActive)
+//        return;
 
-    m_appIsActive = appIsActive;
-    emit appIsActiveChanged(m_appIsActive);
-    emit m_appIsActive ? signalAppIsActive() : signalAppIsInactive();
-}
+//    m_appIsActive = appIsActive;
+//    emit appIsActiveChanged(m_appIsActive);
+//    emit m_appIsActive ? signalAppIsActive() : signalAppIsInactive();
+//}
 
 void FileIO::appNowInactive()
 {
-    setAppIsActive(false);
+//    setAppIsActive(false);
+    emit signalAppIsInactive();
     qDebug() << "App is idle";
 }

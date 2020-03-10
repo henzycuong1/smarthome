@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
                      &app, [&engine,url,fileIO](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
-        QObject::connect(fileIO, SIGNAL(signalAppIsActive()), engine.rootObjects().first(), SIGNAL(appIsActive()));
+        QObject::connect(fileIO, SIGNAL(signalAppIsDoubleClick()), engine.rootObjects().first(), SIGNAL(appIsDoubleClick()));
         QObject::connect(fileIO, SIGNAL(signalAppIsInactive()), engine.rootObjects().first(), SIGNAL(appIsInactive()));
     }, Qt::QueuedConnection);
     engine.load(url);
