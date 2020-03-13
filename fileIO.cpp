@@ -9,7 +9,7 @@ FileIO::FileIO(QObject *parent) : QObject(parent){
     connect(&m_timer,&QTimer::timeout, &m_timer, &QTimer::stop);
 }
 void FileIO::writeFile(const QString &nameFile,const QString &text) {
-    QString urlFile = "../smarthome/" + nameFile;
+    QString urlFile = nameFile;
     QFile file(urlFile);
     if (!file.open(QFile::WriteOnly | QFile::Text)) return;
     QTextStream out(&file);
@@ -17,9 +17,16 @@ void FileIO::writeFile(const QString &nameFile,const QString &text) {
     file.close();
 }
 QString FileIO::readFile(const QString &nameFile) {
-    QString urlFile = "../smarthome/" + nameFile;
+    QString urlFile = nameFile;
     QFile file(urlFile);
-    if (!file.open(QFile::ReadOnly | QFile::Text)) return "";
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        qDebug () << "Read File: Error" << endl;
+        return "";
+    }
+    else
+    {
+        qDebug () << "Read File: OK" << endl;
+    }
     QTextStream in(&file);
     QString temp = in.readAll();
     file.close();

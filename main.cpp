@@ -4,6 +4,7 @@
 #include <QQuickView>
 #include <QQmlEngine>
 #include <fileIO.h>
+#include <myimagesaver.h>
 int main(int argc, char *argv[])
 {
     qmlRegisterType<FileIO>("FileIO", 1, 0, "FileIO");
@@ -15,6 +16,8 @@ int main(int argc, char *argv[])
     app.setOrganizationName("fileDialog");
     app.setOrganizationDomain("fileDialog");
     QQmlApplicationEngine engine;
+    MyImageSaver myImageSaver;
+    engine.rootContext()->setContextProperty("MyImageSaver",&myImageSaver);
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [&engine,url,fileIO](QObject *obj, const QUrl &objUrl) {

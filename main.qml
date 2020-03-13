@@ -4,7 +4,6 @@ import QtQuick.Controls 2.0
 import QtQuick.VirtualKeyboard 2.1
 import FileIO 1.0
 import QtQuick.Dialogs 1.0
-import QtQuick.Controls.Styles 1.4
 import "components"
 import "main.js" as Js
 Window {
@@ -119,7 +118,6 @@ Window {
     Bell{
         id: mainBell
         visible: false
-        z: 99999
     }
 
     InputPanel{

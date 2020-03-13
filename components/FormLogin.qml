@@ -17,6 +17,7 @@ Rectangle {
     }
     signal clicked
     property bool isChecked: setting.checked
+
     Settings{
         id: setting
         property alias checked: checkGhiNhoDangNhap.checked

@@ -1,6 +1,7 @@
 import QtQuick 2.12
-import QtQuick.Window 2.0
+import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
+import QtQuick.Dialogs 1.0
 import QtQuick.Layouts 1.0
 import "../main.js" as Js
 
@@ -15,6 +16,8 @@ Rectangle {
     property bool displayDeviceInput: false
     property string currentDeviceName: inputDeviceName.text
     property int code
+    property int itemNumber
+    property bool pressed : false
     property bool hoverItem: false
     property bool leftInput: false
     property bool rightInput: false
@@ -24,9 +27,22 @@ Rectangle {
     property bool displayUpDownTemperature: false
     MouseArea {
         anchors.fill: parent
-        onClicked: {
-//            parent.clicked()
-//            Js.dislayButton(clickArea.code)
+        hoverEnabled: true
+        onEntered: {
+           pressed ? undefined : parent.border.color = "yellow"
+        }
+        onExited: {
+            parent.border.color = hoverItem ? "transparent" : "black"
+        }
+        onPressed: {
+            parent.pressed = true
+        }
+        onPositionChanged: {
+            parent.pressed ? Js.itemChangePosition(mouse,itemNumber) : undefined
+        }
+        onReleased: {
+            Js.itemHasBeenChangePosition(itemNumber)
+            parent.pressed = false
         }
     }
     Text {

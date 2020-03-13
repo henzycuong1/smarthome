@@ -131,6 +131,7 @@ Item {
                         hoverEnabled: true
                         onClicked: {
                             Js.clearAllItems(row, currentRoom)
+                            itemNumber = 0
                         }
                         onEntered: {
                             parent.color = "blue"

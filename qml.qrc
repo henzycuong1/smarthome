@@ -46,5 +46,7 @@
         <file>icon/volume-on.png</file>
         <file>components/Bell.qml</file>
         <file>icon/bell.png</file>
+        <file>account.json</file>
+        <file>data.json</file>
     </qresource>
 </RCC>

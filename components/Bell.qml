@@ -2,11 +2,21 @@ import QtQuick 2.12
 import QtQuick.Window 2.0
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.0
+import QtMultimedia 5.12
 import "../main.js" as Js
 
 Item{
     id: bell
     anchors.centerIn: parent
+    property var imageList: []
+    function addPicture(source){
+        var image = {
+            "id": source,
+            "source": source
+        }
+        imageList.push(image);
+        bell.imageListChanged();
+    }
     Image {
         id: iconBell
         source: "../icon/bell.png"
@@ -16,7 +26,7 @@ Item{
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                camera.visible = true
+                cameraContainer.visible = true
                 console.log("bell")
             }
         }
@@ -30,8 +40,8 @@ Item{
         }
     }
     Rectangle{
-        id: camera
-        width: 700
+        id: cameraContainer
+        width: 480
         height: 400
         visible: false
         border.color: "black"
@@ -57,7 +67,7 @@ Item{
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                        camera.visible = false
+                        cameraContainer.visible = false
                     }
                 }
             }
@@ -77,8 +87,90 @@ Item{
                 right: parent.right
                 left: parent.left
             }
+
+            Camera{
+                id: camera
+                imageProcessing.whiteBalanceMode: CameraImageProcessing.WhiteBalanceFlash
+                exposure.exposureCompensation: -1.0
+                exposure.exposureMode: Camera.ExposurePortrait
+                flash.mode: Camera.FlashRedEyeReduction
+                imageCapture.onImageCaptured: {
+                    photoPreview.source = preview
+                    imageList.push(preview)
+
+                }
+
+            }
+            VideoOutput {
+                source: camera
+                height: parent.height - 50
+                width: parent.width
+                focus : visible
+            }
+            Rectangle{
+                width: 50
+                height: 50
+                anchors{
+                    bottom: parent.bottom
+                    horizontalCenter: parent.horizontalCenter
+                }
+
+                color:"red"
+                radius:100
+                border.color: "black"
+                border.width: 1
+                MouseArea{
+                    anchors.fill: parent
+                    onPressed: {
+                        parent.color = "black"
+                        camera.imageCapture.capture()
+                        photoPreview.visible = true
+                        console.log("Take a picture")
+                    }
+                    onReleased: {
+                        parent.color = "red"
+
+                    }
+                }
+            }
+            Rectangle{
+                width: 50
+                height: 50
+                radius: 100
+                color: "red"
+                anchors{
+                    bottom: parent.bottom
+                    right: parent.right
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onPressed: {
+                        parent.color = "black"
+                        camera.imageCapture.captureToLocation("C:/Users/admin/test.png")
+                    }
+                    onReleased: {
+                        parent.color = "red"
+                    }
+                }
+            }
+
+            Image{
+                id: photoPreview
+                anchors{
+                    right: parent.right
+                    verticalCenter: parent.verticalCenter
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        parent.visible = false
+                        photoPreview.grabToImage(function(result){
+                            MyImageSaver.savePicture(photoPreview.source,result)
+                        });
+                        MyImageSaver.writePictures()
+                    }
+                }
+            }
         }
     }
 }
-
-

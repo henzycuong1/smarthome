@@ -1,5 +1,7 @@
 var objDrag
 var compDrag
+var tempX
+var tempY
 var specialCharacters = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/
 function showMessage(title, content){
     messageBox.newTitle = title
@@ -57,7 +59,8 @@ function createPoint(name, isAdmin) {
                                                 "y": Number(jsonObj[i].Room.pointY[j]),
                                                 "opacity": isAdmin ? 1 : 1,
                                                 "code": Number(jsonObj[i].Room.code[j]),
-                                                "hoverItem": isAdmin ? false : true
+                                                "hoverItem": isAdmin ? false : true,
+                                                "itemNumber": j
                                             })
                 obj.clicked.connect(function(){ pointClicked() })
             }
@@ -90,7 +93,8 @@ function createRoomList(id, isAdmin) {
                                     })
        obj.clicked.connect(function () {
             trackingRoom = i
-            choseRoom(i,isAdmin ? true : false)})
+            choseRoom(i,isAdmin ? true : false)
+            })
     }
 }
 function clearAllItems(id, name) {
@@ -164,7 +168,7 @@ function createNewRoom(name, imageURL) {
 }
 
 // Create component when drag
-function startDrag(mouse) {
+function startDrag(mouse,itemNumber) {
     compDrag = Qt.createComponent("components/NewDevice.qml")
     if(compDrag.status !== Component.Ready)
     {
@@ -191,7 +195,9 @@ function endDrag(name) {
             jsonObj[i].Room.pointY.push(objDrag.y)
         }
     }
+    objDrag.itemNumber = listPoint.children.length - 2
     file.writeFile("data.json",JSON.stringify(jsonObj))
+
 }
 function createDevice(index) {
     containerMenuAdmin.pressed = false
@@ -283,3 +289,27 @@ function signOut(){
     mainBackground.visible = true
     createPoint(undefined,false)
 }
+function checkItem(itemNumber){
+    let data = JSON.parse(file.readFile("data.json"))
+    for(let i = 0 ; i < data.length ; i++){
+        if(data[i].Room.name === currentRoom){
+            tempX = data[i].Room.pointX[itemNumber]
+            tempY = data[i].Room.pointY[itemNumber]
+        }
+    }
+}
+function itemChangePosition(mouse,itemNumber){
+    listPoint.children[itemNumber+1].x += (mouse.x - 50)
+    listPoint.children[itemNumber+1].y += (mouse.y - 50)
+}
+function itemHasBeenChangePosition(itemNumber){
+    let data = JSON.parse(file.readFile("data.json"))
+    for(let i = 0 ; i < data.length ; i++){
+        if(data[i].Room.name === currentRoom){
+            data[i].Room.pointX[itemNumber] = listPoint.children[itemNumber+1].x
+            data[i].Room.pointY[itemNumber] = listPoint.children[itemNumber+1].y
+        }
+    }
+    file.writeFile("data.json",JSON.stringify(data))
+}
+

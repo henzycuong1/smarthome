@@ -4,7 +4,9 @@ CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         fileIO.cpp \
-        main.cpp
+        main.cpp \
+        myimage.cpp \
+        myimagesaver.cpp
 RESOURCES += qml.qrc
 
 QML_IMPORT_PATH =
@@ -16,7 +18,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    fileIO.h
+    fileIO.h \
+    myimage.h \
+    myimagesaver.h
 
 DISTFILES += \
     qmldir
