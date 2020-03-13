@@ -18,50 +18,6 @@ Item {
         id:file
     }
     Rectangle {
-        id: menuControlUsers
-        visible: displayMenuControl
-        anchors {
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
-            bottomMargin: displayMenuControl ? 0 : -100
-        }
-        height: 100
-        z: 10
-        color: "#7accc8"
-        opacity: 0.7
-        radius: 10
-        Behavior on anchors.bottomMargin {
-            NumberAnimation { duration: 300 }
-        }
-
-        Rectangle {
-            id: closeMenuControl
-            anchors {
-                top: parent.top
-                topMargin: 10
-                right: parent.right
-                rightMargin: 10
-            }
-            width: 25
-            height: 25
-            z: 10
-            radius: 100
-            color: "transparent"
-            Image {
-                id: iconCloseControl
-                source: "../icon/closebutton.png"
-                sourceSize.height: 25
-                sourceSize.width: 25
-            }
-            MouseArea {
-                id: mCloseMenuControl
-                anchors.fill: parent
-                onClicked: Js.pointClicked();
-            }
-        }
-    }
-    Rectangle {
         id: menuChangeRoomUsers
         visible: true
         anchors {

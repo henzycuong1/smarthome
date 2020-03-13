@@ -48,5 +48,7 @@
         <file>icon/bell.png</file>
         <file>account.json</file>
         <file>data.json</file>
+        <file>icon/loading.png</file>
+        <file>components/Loading.qml</file>
     </qresource>
 </RCC>

@@ -68,6 +68,7 @@ Item{
                     anchors.fill: parent
                     onClicked: {
                         cameraContainer.visible = false
+                        bell.visible = false
                     }
                 }
             }
@@ -146,7 +147,7 @@ Item{
                     anchors.fill: parent
                     onPressed: {
                         parent.color = "black"
-                        camera.imageCapture.captureToLocation("C:/Users/admin/test.png")
+                        camera.imageCapture.captureToLocation(file.getDateTime())
                     }
                     onReleased: {
                         parent.color = "red"

@@ -12,6 +12,15 @@ class FileIO : public QObject
 //    Q_PROPERTY(bool appIsActive READ appIsActive WRITE setAppIsActive NOTIFY appIsActiveChanged)
 public:
     explicit FileIO(QObject *parent = nullptr);
+    Q_INVOKABLE QString getDateTime() const{
+        QString date = QDateTime::currentDateTime().toString();
+        for(int i = 0; i < date.size();i++){
+            if(date[i] == ' ' || date[i] == ':'){
+                date[i] = '-';
+            }
+        }
+        return date;
+    }
 //    inline bool appIsActive() const {return m_appIsActive;}
 public slots:
     void writeFile(const QString &nameFile,const QString &text);

@@ -82,6 +82,11 @@ Window {
     }
     FormLogin {
         id: mainFormLogin
+        anchors{
+            bottom: keyboard.visible ? keyboard.top : parent.bottom
+            horizontalCenter: parent.horizontalCenter
+            bottomMargin: keyboard.visible ? 0 : 25
+        }
     }
     ListView {
         id: listPoint
@@ -89,6 +94,7 @@ Window {
     MenuAdmin{
         id: mainMenuAdmin
         visible: false
+        displayKeyboard: keyboard.visible
     }
     MenuUsers {
         id: mainMenuUsers
@@ -117,6 +123,10 @@ Window {
     }
     Bell{
         id: mainBell
+        visible: false
+    }
+    Loading{
+        id: mainLoading
         visible: false
     }
 

@@ -11,6 +11,7 @@ Item {
     width: parent.width
     height: parent.height
     property string fileURL
+    property bool displayKeyboard: false
     property bool displayFormInput: false
     property string currentRoom
     property bool pressed: false
@@ -40,7 +41,7 @@ Item {
         color: "black"
         opacity: 0.7
         Behavior on anchors.topMargin{
-            NumberAnimation{ duration: 500}
+            NumberAnimation{ duration: 250}
         }
         ScrollView{
             anchors.fill: parent
@@ -159,10 +160,10 @@ Item {
         color: "black"
         opacity: 0.7
         Behavior on anchors.topMargin {
-            NumberAnimation { duration: 500 }
+            NumberAnimation { duration: 250 }
         }
         Behavior on anchors.leftMargin{
-            NumberAnimation { duration: 500 }
+            NumberAnimation { duration: 250 }
         }
         ScrollView{
             anchors.fill: parent
@@ -273,7 +274,12 @@ Item {
         color: "transparent"
         border.color: "black"
         border.width: 1
-        anchors.centerIn: containerMenuAdmin
+        anchors{
+            centerIn: displayKeyboard ? undefined : containerMenuAdmin
+            bottom: displayKeyboard ? parent.bottom : undefined
+            bottomMargin: displayKeyboard ? 280 : undefined
+        }
+
         Rectangle{
             id: titleFormInputRoomName
             color: "black"

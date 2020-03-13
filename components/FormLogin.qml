@@ -10,11 +10,6 @@ Rectangle {
     height: 275
     color: "#ffffff"
     radius: 10
-    anchors{
-        bottom: parent.bottom
-        horizontalCenter: parent.horizontalCenter
-        bottomMargin: 25
-    }
     signal clicked
     property bool isChecked: setting.checked
 

@@ -1,7 +1,5 @@
 var objDrag
 var compDrag
-var tempX
-var tempY
 var specialCharacters = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/
 function showMessage(title, content){
     messageBox.newTitle = title
@@ -28,12 +26,9 @@ function checkLogin(id, password) {
         mainMenuUsers.visible = true
         trackingRoom = 0
         trackingAdmin = false
+        mainLoading.visible = true
         choseRoom(0, false)
     }
-}
-function pointClicked() {
-    mainDisplayMenuControl = !mainDisplayMenuControl;
-
 }
 function createPoint(name, isAdmin) {
     if (listPoint.children.length !== 0) {
@@ -158,6 +153,7 @@ function createNewRoom(name, imageURL) {
         let newNewData = oldData.concat(newData);
         file.writeFile("data.json",JSON.stringify(newNewData));
         displayFormInput = false
+        mainLoading.visible = true
         return
     } else {
         showMessage("Lỗi nhập tên", "Vui lòng không nhập ký tự đặc biệt hoặc dấu cách!")
@@ -184,9 +180,9 @@ function continueDrag(mouse) {
     objDrag.y = mouse.y - objDrag.height / 2
 }
 function endDrag(name) {
+    objDrag.displayDeviceInput = true
     let jsonObj = JSON.parse(file.readFile("data.json"))
     objDrag.x > 500 ? objDrag.rightInput = true : objDrag.leftInput = true
-    objDrag.displayDeviceInput = true
     for(let i = 0; i < jsonObj.length; i++){
         if(jsonObj[i].Room.name === name){
             jsonObj[i].Room.pointX.push(objDrag.x)
@@ -208,12 +204,13 @@ function createDevice(index) {
         }
     }
     file.writeFile("data.json",JSON.stringify(jsonObj))
-    displayDeviceInput = false
+    formInputDeviceName.visible = false
+    mainLoading.visible = true
 }
 
 function createDeviceList() {
-        for (let j = 2; j < row.children.length; j++) {
-            row.children[j].destroy()
+        for (let k = 2; k < row.children.length; k++) {
+            row.children[k].destroy()
         }
         let jsonObj = JSON.parse(file.readFile("data.json"))
         let comp = Qt.createComponent("components/ItemComponents.qml")

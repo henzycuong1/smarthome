@@ -1,5 +1,4 @@
-QT += quick
-QT += widgets
+QT += qml quick widgets multimedia
 CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
