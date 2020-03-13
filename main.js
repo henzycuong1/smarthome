@@ -16,8 +16,6 @@ function checkLogin(id, password) {
         mainFormLogin.visible = false
         mainMenuAdmin.visible = true
         mainBackground.isLoginScreen = false
-//        mainRoom.visible = true
-//        mainRoom.imageURL = "../icon/Background.png"
         trackingAdmin = true;
     } else if (specialCharacters.test(id) || specialCharacters.test(password)) {
         showMessage("Lỗi đăng nhập", "Tài khoản hoặc Mật khẩu không thể chứa ký tự đặc biệt hoặc dấu cách")
@@ -60,7 +58,7 @@ function createPoint(name, isAdmin) {
                                                 "opacity": isAdmin ? 1 : 1,
                                                 "code": Number(jsonObj[i].Room.code[j]),
                                                 "hoverItem": isAdmin ? false : true,
-                                                "itemNumber": j
+                                                "itemNumber": j,
                                             })
                 obj.clicked.connect(function(){ pointClicked() })
             }
@@ -299,10 +297,12 @@ function checkItem(itemNumber){
     }
 }
 function itemChangePosition(mouse,itemNumber){
+    if(!root.trackingAdmin) return
     listPoint.children[itemNumber+1].x += (mouse.x - 50)
     listPoint.children[itemNumber+1].y += (mouse.y - 50)
 }
 function itemHasBeenChangePosition(itemNumber){
+    if(!root.trackingAdmin) return
     let data = JSON.parse(file.readFile("data.json"))
     for(let i = 0 ; i < data.length ; i++){
         if(data[i].Room.name === currentRoom){

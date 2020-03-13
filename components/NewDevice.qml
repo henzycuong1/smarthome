@@ -29,7 +29,7 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         onEntered: {
-           pressed ? undefined : parent.border.color = "yellow"
+            hoverItem ? undefined : pressed ? undefined : parent.border.color = "yellow"
         }
         onExited: {
             parent.border.color = hoverItem ? "transparent" : "black"
